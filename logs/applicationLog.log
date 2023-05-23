@@ -1,0 +1,113 @@
+2023-05-22 13:30:20 [] [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:30:20 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 27276 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:30:20 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:30:20 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 1.03 seconds (process running for 1.633)
+2023-05-22 13:30:56 [] [background-preinit] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider found via system property
+2023-05-22 13:30:56 [] [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.x.config.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.x.config.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.e.r.TraversableResolvers - Cannot find jakarta.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2023-05-22 13:30:56 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 26456 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:30:56 [] [main] DEBUG c.u.m.M295ProjectApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-05-22 13:30:56 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.m.ResourceBundleMessageInterpolator - Loaded expression factory via original TCCL
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2023-05-22 13:30:56 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2023-05-22 13:30:57 [] [main] DEBUG com.zaxxer.hikari.HikariConfig - Driver class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.m.ResourceBundleMessageInterpolator - Loaded expression factory via original TCCL
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.AbstractConfigurationImpl - Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.AbstractConfigurationImpl - Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.x.config.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via user class loader
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.x.config.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.r.TraversableResolvers - Cannot find jakarta.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2023-05-22 13:30:57 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2023-05-22 13:30:57 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 0.972 seconds (process running for 1.429)
+2023-05-22 13:31:03 [] [background-preinit] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider found via system property
+2023-05-22 13:31:03 [] [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.x.config.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.x.config.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.e.r.TraversableResolvers - Cannot find jakarta.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2023-05-22 13:31:03 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 22776 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:31:03 [] [main] DEBUG c.u.m.M295ProjectApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-05-22 13:31:03 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.m.ResourceBundleMessageInterpolator - Loaded expression factory via original TCCL
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2023-05-22 13:31:03 [] [background-preinit] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2023-05-22 13:31:04 [] [main] DEBUG com.zaxxer.hikari.HikariConfig - Driver class com.mysql.cj.jdbc.Driver found in Thread context class loader jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.m.ResourceBundleMessageInterpolator - Loaded expression factory via original TCCL
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.AbstractConfigurationImpl - Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.AbstractConfigurationImpl - Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.x.config.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via user class loader
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.x.c.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.x.config.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.r.TraversableResolvers - Cannot find jakarta.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2023-05-22 13:31:04 [] [main] DEBUG o.h.v.i.e.ValidatorFactoryConfigurationHelper - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2023-05-22 13:31:04 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 0.997 seconds (process running for 1.466)
+2023-05-22 13:31:22 [] [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:31:22 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 2768 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:31:22 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 2768 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:31:22 [] [main] DEBUG c.u.m.M295ProjectApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-05-22 13:31:22 [] [main] DEBUG c.u.m.M295ProjectApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-05-22 13:31:22 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:31:22 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:31:22 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 0.954 seconds (process running for 1.421)
+2023-05-22 13:31:22 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 0.954 seconds (process running for 1.421)
+2023-05-22 13:32:31 [] [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:32:31 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 26756 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:32:31 [] [main] DEBUG c.u.m.M295ProjectApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-05-22 13:32:31 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:32:32 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 0.936 seconds (process running for 1.413)
+2023-05-22 13:36:06 [] [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:36:06 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 10708 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:36:06 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:36:07 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 0.951 seconds (process running for 1.402)
+2023-05-22 13:36:45 [] [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:36:45 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 5324 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:36:45 [] [main] DEBUG c.u.m.M295ProjectApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-05-22 13:36:45 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:36:46 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 0.919 seconds (process running for 1.361)
+2023-05-22 13:37:44 [] [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:37:44 [] [main] INFO  c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 27268 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:37:44 [] [main] DEBUG c.u.m.M295ProjectApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-05-22 13:37:44 [] [main] INFO  c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:37:45 [] [main] INFO  c.u.m.M295ProjectApplication - Started M295ProjectApplication in 1.119 seconds (process running for 1.865)
+2023-05-22 13:37:45 [] [main] INFO  c.u.m.M295ProjectApplication - Info
+2023-05-22 13:37:45 [] [main] WARN  c.u.m.M295ProjectApplication - Warn
+2023-05-22 13:37:45 [] [main] ERROR c.u.m.M295ProjectApplication - Error
+2023-05-22 13:37:45 [] [main] DEBUG c.u.m.M295ProjectApplication - Debug
+2023-05-22 13:38:39 [] [background-preinit] [34m[INFO][0;39m o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-05-22 13:38:39 [] [main] [34m[INFO][0;39m c.u.m.M295ProjectApplication - Starting M295ProjectApplication using Java 20.0.1 with PID 27548 (C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication\target\classes started by noahb in C:\Users\noahb\Documents\Development\Meisterschaftsklasse\M295_ProjectApplication)
+2023-05-22 13:38:39 [] [main] [39m[DEBUG][0;39m c.u.m.M295ProjectApplication - Running with Spring Boot v3.1.0, Spring v6.0.9
+2023-05-22 13:38:39 [] [main] [34m[INFO][0;39m c.u.m.M295ProjectApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-22 13:38:40 [] [main] [34m[INFO][0;39m c.u.m.M295ProjectApplication - Started M295ProjectApplication in 0.941 seconds (process running for 1.432)
+2023-05-22 13:38:40 [] [main] [34m[INFO][0;39m c.u.m.M295ProjectApplication - Info
+2023-05-22 13:38:40 [] [main] [31m[WARN][0;39m c.u.m.M295ProjectApplication - Warn
+2023-05-22 13:38:40 [] [main] [1;31m[ERROR][0;39m c.u.m.M295ProjectApplication - Error
+2023-05-22 13:38:40 [] [main] [39m[DEBUG][0;39m c.u.m.M295ProjectApplication - Debug

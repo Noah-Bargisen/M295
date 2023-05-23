@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: M295
+  description: M295
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /teams:
+    get:
+      tags:
+        - team
+      summary: Get all teams
+      description: Get all teams
+      operationId: getTeams
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Invalid Request supplied
+        '404':
+          description: Teams not found
+        '405':
+          description: Validation exception
+      #security:
+        #- petstore_auth:
+            #- write:pets
+            #- read:pets
+components:
+  schemas:
+    TeamMember:
+      type: object
+      properties:
+        memberId:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: Smith
+        firstname:
+          type: string
+          example: John
+        joinDate:
+          type: string
+          format: date-time
+        team:
+          type: object
+          $ref: '#/components/schemas/Team'
+    Team:
+      type: object
+      properties:
+        teamId:
+          type: integer
+          format: int64
+          example: 10
+        budget:
+          type: number
+          format: double
+          example: 96.00
+        teamName:
+          type: string
+          example: Team 1
+        teamMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamMember'
+
+    Software:
+      type: object
+      properties:
+        softwareId:
+          type: string
+          example: AOP
+        softwareName:
+          type: string
+          example: Application One Project
+        softwareVersion:
+          type: string
+          example: 1.0.0
+        team:
+          type: object
+          $ref: '#/components/schemas/Team'
+        project:
+          type: object
+          $ref: '#/components/schemas/Project'
+        status:
+          type: string
+          description: Order Status
+          example: approved
+          enum:
+            - deployed
+            - testing
+            - development
+            - planning
+    Project:
+      type: object
+      properties:
+        projectId:
+          type: integer
+          format: int64
+          example: 10
+        projectName:
+            type: string
+            example: Project 1
