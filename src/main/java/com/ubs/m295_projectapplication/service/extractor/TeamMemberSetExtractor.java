@@ -1,8 +1,8 @@
 package com.ubs.m295_projectapplication.service.extractor;
 
-import com.ubs.module.Project;
-import com.ubs.module.Team;
-import com.ubs.module.TeamMember;
+import com.ubs.gen.module.Project;
+import com.ubs.gen.module.Team;
+import com.ubs.gen.module.TeamMember;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 

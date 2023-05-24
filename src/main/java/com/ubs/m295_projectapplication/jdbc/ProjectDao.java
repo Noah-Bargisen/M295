@@ -1,8 +1,8 @@
 package com.ubs.m295_projectapplication.jdbc;
 
 import com.ubs.m295_projectapplication.service.extractor.ProjectSetExtractor;
-import com.ubs.module.Project;
-import com.ubs.module.TeamMember;
+import com.ubs.gen.module.Project;
+import com.ubs.gen.module.TeamMember;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,9 +16,12 @@ import java.util.List;
 @Slf4j
 public class ProjectDao {
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    public ProjectDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    private final GeneratedKeyHolder generatedKeyHolder;
+    public ProjectDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate, GeneratedKeyHolder generatedKeyHolder) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.generatedKeyHolder = generatedKeyHolder;
     }
 
     private List<TeamMember> teamMemberList = new ArrayList<>();
@@ -45,16 +48,15 @@ public class ProjectDao {
         }
     }
 
-    public void addProject(Project project) throws SQLException {
+    public int addProject(Project project) throws SQLException {
         try {
-        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         String sql = "insert into project (projectName) values (:projectName)";
         SqlParameterSource paramSource = new MapSqlParameterSource()
                 .addValue("projectName", project.getProjectName());
-        int status = namedParameterJdbcTemplate.update(sql, paramSource, generatedKeyHolder);
-        int id = generatedKeyHolder.getKey().intValue();
-        System.out.println(id);
+        int status = namedParameterJdbcTemplate.update(sql, paramSource, this.generatedKeyHolder);
+        int id = this.generatedKeyHolder.getKey().intValue();
         project.setProjectId((long) id);
+        return status;
         } catch (Exception e) {
             log.debug(e.getMessage());
             throw new SQLException("Project not added.");

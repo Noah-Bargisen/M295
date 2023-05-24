@@ -1,7 +1,7 @@
 package com.ubs.m295_projectapplication.jdbc;
 
 import com.ubs.m295_projectapplication.service.extractor.ProjectSetExtractor;
-import com.ubs.module.Project;
+import com.ubs.gen.module.Project;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -26,23 +27,25 @@ class ProjectDaoTest {
     @Mock
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Mock
+    private GeneratedKeyHolder generatedKeyHolder;
+
     private ProjectDao projectDao;
     @BeforeEach
     void setUp() {
-        this.projectDao = new ProjectDao(this.namedParameterJdbcTemplate);
+        this.projectDao = new ProjectDao(this.namedParameterJdbcTemplate, generatedKeyHolder);
     }
 
     @Test
-    void getAllProjects() {
+    void getAllProjects() throws SQLException {
         this.projectDao.getAllProjects();
         verify(this.namedParameterJdbcTemplate).query(eq
                 ("select * from project p join software s on p.projectId = s.project join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team")
                 , any(ProjectSetExtractor.class));
-
     }
 
     @Test
-    void getProjectById() {
+    void getProjectById() throws SQLException {
         Project project = new Project();
         project.setProjectId(1L);
         project.setProjectName("Project1");
@@ -61,20 +64,38 @@ class ProjectDaoTest {
         Project project = new Project();
         project.setProjectId(1L);
         project.setProjectName("Project1");
+        when(this.generatedKeyHolder.getKey())
+                .thenReturn(1);
         this.projectDao.addProject(project);
         ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
                 ArgumentCaptor.forClass(MapSqlParameterSource.class);
         verify(this.namedParameterJdbcTemplate).update(eq("insert into project (projectName) values (:projectName)")
                 , argumentCaptor.capture(), any(GeneratedKeyHolder.class));
-        assertEquals(1, argumentCaptor.getValue().getValue("projectId"));
         assertEquals("Project1", argumentCaptor.getValue().getValue("projectName"));
     }
 
     @Test
-    void updateProject() {
+    void updateProject() throws SQLException {
+        Project project = new Project();
+        project.setProjectId(1L);
+        project.setProjectName("Project1");
+        this.projectDao.updateProject(project);
+        ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
+                ArgumentCaptor.forClass(MapSqlParameterSource.class);
+        verify(this.namedParameterJdbcTemplate).update(eq("update project set projectName = :projectName where projectId = :projectId")
+                , argumentCaptor.capture());
+
+        assertEquals(project.getProjectId(), argumentCaptor.getValue().getValue("projectId"));
+        assertEquals(project.getProjectName(), argumentCaptor.getValue().getValue("projectName"));
     }
 
     @Test
-    void deleteTeamById() {
+    void deleteTeamById() throws SQLException {
+        this.projectDao.deleteTeamById(1);
+        ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
+                ArgumentCaptor.forClass(MapSqlParameterSource.class);
+        verify(this.namedParameterJdbcTemplate).update(eq("delete from project where projectId = :projectId")
+                , argumentCaptor.capture());
+        assertEquals(1, argumentCaptor.getValue().getValue("projectId"));
     }
 }

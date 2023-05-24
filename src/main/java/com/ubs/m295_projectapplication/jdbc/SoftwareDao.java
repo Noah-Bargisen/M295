@@ -1,8 +1,8 @@
 package com.ubs.m295_projectapplication.jdbc;
 
 import com.ubs.m295_projectapplication.service.extractor.SoftwareSetExtractor;
-import com.ubs.module.Software;
-import com.ubs.module.TeamMember;
+import com.ubs.gen.module.Software;
+import com.ubs.gen.module.TeamMember;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -47,7 +47,7 @@ public class SoftwareDao {
 
     }
 
-    public void addSoftware(Software software) throws SQLException {
+    public int addSoftware(Software software) throws SQLException {
         try {
             String sql = "insert into software (softwareId, team, project, status) values (:softwareId, :team, :project, :status)";
             SqlParameterSource paramSource = new MapSqlParameterSource()
@@ -55,7 +55,7 @@ public class SoftwareDao {
                     .addValue("team", software.getTeam().getTeamId())
                     .addValue("project", software.getProject().getProjectId())
                     .addValue("status", software.getStatus().toString());
-            int status = namedParameterJdbcTemplate.update(sql, paramSource);
+            return namedParameterJdbcTemplate.update(sql, paramSource);
         } catch (Exception e) {
             log.debug(e.getMessage());
             throw new SQLException("Software not added.");

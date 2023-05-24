@@ -1,8 +1,9 @@
 package com.ubs.m295_projectapplication.controller;
 
+import com.ubs.gen.controller.SoftwareApi;
 import com.ubs.m295_projectapplication.jdbc.SoftwareDao;
 import com.ubs.m295_projectapplication.jdbc.TeamMemberDao;
-import com.ubs.module.Software;
+import com.ubs.gen.module.Software;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/m295")
 @Slf4j
-public class SoftwareController {
+public class SoftwareController extends AbstractController implements SoftwareApi {
 
     private final static String GET_ALL_SOFTWARE_PATH = "/software";
     private final static String GET_ONE_SOFTWARE_PATH = "/software/{softwareId}";
@@ -37,6 +38,9 @@ public class SoftwareController {
         } catch (SQLException e) {
             log.warn("Error getting software", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error getting software", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -49,6 +53,9 @@ public class SoftwareController {
         } catch (SQLException e) {
             log.warn("Error getting software", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error getting software", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -56,11 +63,14 @@ public class SoftwareController {
     public ResponseEntity postSoftware(@RequestBody Software software) {
         log.info("Posting one software");
         try {
-            softwareDao.addSoftware(software);
-            return ResponseEntity.ok().build();
+            int status = softwareDao.addSoftware(software);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error posting software", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error posting software", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -68,11 +78,14 @@ public class SoftwareController {
     public ResponseEntity putSoftware(@RequestBody Software software) {
         log.info("Putting one software");
         try {
-            softwareDao.updateSoftware(software);
-            return ResponseEntity.ok().build();
+            int status = softwareDao.updateSoftware(software);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error putting software", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error putting software", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -80,11 +93,30 @@ public class SoftwareController {
     public ResponseEntity deleteSoftware(@PathVariable("softwareId") int softwareId) {
         log.info("Deleting one software");
         try {
-            softwareDao.deleteTeamById(softwareId);
-            return ResponseEntity.ok().build();
+            int status = softwareDao.deleteTeamById(softwareId);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error deleting software", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error deleting software", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+
+    @Override
+    public ResponseEntity<List<Software>> getSoftwares() {
+        log.info("Getting all software");
+        try {
+            List<Software> softwareList = softwareDao.getAllSoftware();
+            return ResponseEntity.ok().body(softwareList);
+        } catch (SQLException e) {
+            log.warn("Error getting software", e);
+            throw badRequestRespond(e);
+        } catch (Exception e) {
+            log.error("Critical error getting software", e);
+            throw internalServerErrorRespond(e);
         }
     }
 }

@@ -2,7 +2,7 @@ package com.ubs.m295_projectapplication.controller;
 
 import com.ubs.m295_projectapplication.jdbc.ProjectDao;
 import com.ubs.m295_projectapplication.jdbc.TeamMemberDao;
-import com.ubs.module.TeamMember;
+import com.ubs.gen.module.TeamMember;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class TeamMemberController {
     private final static String GET_ONE_TEAM_MEMBER_PATH = "/teamMember/{teamMemberId}";
 
     private final static String ADMIN_POST_TEAM_MEMBER_PATH = "/admin/teamMember";
-    private final static String ADMIN_PUT_TEAM_MEMBER_PATH = "/admin/teamMember}";
+    private final static String ADMIN_PUT_TEAM_MEMBER_PATH = "/admin/teamMember";
     private final static String ADMIN_DELETE_TEAM_MEMBER_PATH = "/admin/teamMember/{teamMemberId}";
 
     private final TeamMemberDao teamMemberDao;
@@ -37,6 +37,9 @@ public class TeamMemberController {
         } catch (SQLException e) {
             log.warn("Error getting team members", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error getting team members", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -49,6 +52,9 @@ public class TeamMemberController {
         } catch (SQLException e) {
             log.warn("Error getting team member", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error getting team member", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -56,11 +62,14 @@ public class TeamMemberController {
     public ResponseEntity postTeamMember(@RequestBody TeamMember teamMember) {
         log.info("Posting one team member");
         try {
-            teamMemberDao.addTeamMember(teamMember);
-            return ResponseEntity.ok().build();
+            int status = teamMemberDao.addTeamMember(teamMember);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error posting team member", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error posting team member", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -68,11 +77,14 @@ public class TeamMemberController {
     public ResponseEntity putTeamMember(@RequestBody TeamMember teamMember) {
         log.info("Putting one team member");
         try {
-            teamMemberDao.updateTeamMember(teamMember);
-            return ResponseEntity.ok().build();
+            int status = teamMemberDao.updateTeamMember(teamMember);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error putting team member", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error putting team member", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -80,11 +92,14 @@ public class TeamMemberController {
     public ResponseEntity deleteTeamMember(@PathVariable("teamMemberId") int teamMemberId) {
         log.info("Deleting one team member");
         try {
-            teamMemberDao.deleteTeamMemberById(teamMemberId);
-            return ResponseEntity.ok().build();
+            int status = teamMemberDao.deleteTeamMemberById(teamMemberId);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error deleting team member", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error deleting team member", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }

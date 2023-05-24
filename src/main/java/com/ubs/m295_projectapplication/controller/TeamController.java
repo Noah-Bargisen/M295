@@ -1,7 +1,7 @@
 package com.ubs.m295_projectapplication.controller;
 
 import com.ubs.m295_projectapplication.jdbc.TeamDao;
-import com.ubs.module.Team;
+import com.ubs.gen.module.Team;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +35,9 @@ public class TeamController {
         } catch (SQLException e) {
             log.warn("Error getting teams", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error getting teams", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -47,6 +50,9 @@ public class TeamController {
         } catch (SQLException e) {
             log.warn("Error getting team", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error getting team", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -54,11 +60,14 @@ public class TeamController {
     public ResponseEntity postTeam(@RequestBody Team team) {
         log.info("Posting one team");
         try {
-            teamDao.addTeam(team);
-            return ResponseEntity.ok().build();
+            int status = teamDao.addTeam(team);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error posting team", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error posting team", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -66,11 +75,14 @@ public class TeamController {
     public ResponseEntity putTeam(@RequestBody Team team) {
         log.info("Putting one team");
         try {
-            teamDao.updateTeam(team);
-            return ResponseEntity.ok().build();
+            int status = teamDao.updateTeam(team);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error putting team", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error putting team", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -78,11 +90,14 @@ public class TeamController {
     public ResponseEntity deleteTeam(@PathVariable("teamId") int teamId) {
         log.info("Deleting one team");
         try {
-            teamDao.deleteTeamById(teamId);
-            return ResponseEntity.ok().build();
+            int status = teamDao.deleteTeamById(teamId);
+            return ResponseEntity.ok().body(status);
         } catch (SQLException e) {
             log.warn("Error deleting team", e);
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Critical error deleting team", e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }

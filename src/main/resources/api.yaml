@@ -6,14 +6,69 @@ info:
 servers:
   - url: 'http://localhost:8080'
 paths:
-  /admin/project:
+  /project:
     get:
       tags:
+        - user
+        - project
+      summary: Get all projects
+      description: Get all projects
+      operationId: getProjects
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /project/{projectId}:
+    get:
+      tags:
+        - user
+        - project
+      summary: Get a project
+      description: Get a project
+      operationId: getProject
+      parameters:
+        - name: projectId
+          in: path
+          description: Project ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /project/admin:
+    post:
+      tags:
         - admin
+        - -project
       summary: Post a new project
       description: Post a new project
       operationId: postProject
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -28,17 +83,505 @@ paths:
           content:
             application/json:
               schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+    put:
+      tags:
+        - admin
+        - -project
+      summary: Update a project
+      description: Update a project
+      operationId: putProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /project/admin/{projectId}:
+    delete:
+      tags:
+        - admin
+        - -project
+      summary: Delete a project
+      description: Delete a project
+      operationId: deleteProject
+      parameters:
+        - name: projectId
+          in: path
+          description: Project ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /team:
+    get:
+      tags:
+        - user
+        - team
+      summary: Get all teams
+      description: Get all teams
+      operationId: getTeams
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /team/{teamId}:
+    get:
+      tags:
+        - user
+        - team
+      summary: Get a team
+      description: Get a team
+      operationId: getTeam
+      parameters:
+        - name: teamId
+          in: path
+          description: Team ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/Team'
         '400':
           description: Invalid Request supplied
-        '404':
-          description: Teams not found
-        '405':
-          description: Validation exception
-      #security:
-        #- petstore_auth:
-            #- write:pets
-            #- read:pets
+          
+        '500':
+          description: Critical error
+          
+  /team/admin:
+    post:
+      tags:
+        - admin
+        - -team
+      summary: Post a new team
+      description: Post a new team
+      operationId: postTeam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamName:
+                  type: string
+                  example: Team 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+    put:
+      tags:
+        - admin
+        - -team
+      summary: Update a team
+      description: Update a team
+      operationId: putTeam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /team/admin/{teamId}:
+    delete:
+      tags:
+        - admin
+        - -team
+      summary: Delete a team
+      description: Delete a team
+      operationId: deleteTeam
+      parameters:
+        - name: teamId
+          in: path
+          description: Team ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /teamMember:
+    get:
+      tags:
+        - user
+        - teamMember
+      summary: Get all team members
+      description: Get all team members
+      operationId: getTeamMembers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamMember'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /teamMember/{teamMemberId}:
+    get:
+      tags:
+        - user
+        - teamMember
+      summary: Get a team member
+      description: Get a team member
+      operationId: getTeamMember
+      parameters:
+        - name: teamMemberId
+          in: path
+          description: Team Member ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+
+  /teamMember/admin:
+    post:
+      tags:
+        - admin
+        - -teamMember
+      summary: Post a new team member
+      description: Post a new team member
+      operationId: postTeamMember
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Smith
+                firstname:
+                  type: string
+                  example: John
+                joinDate:
+                  type: string
+                  format: date-time
+                team:
+                  $ref: '#/components/schemas/Team'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+    put:
+      tags:
+        - admin
+        - -teamMember
+      summary: Update a team member
+      description: Update a team member
+      operationId: putTeamMember
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /teamMember/admin/{teamMemberId}:
+    delete:
+      tags:
+        - admin
+        - -teamMember
+      summary: Delete a team member
+      description: Delete a team member
+      operationId: deleteTeamMember
+      parameters:
+        - name: teamMemberId
+          in: path
+          description: Team Member ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /software:
+    get:
+      tags:
+        - user
+        - software
+      summary: Get all software
+      description: Get all software
+      operationId: getSoftwares
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Software'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /software/{softwareId}:
+    get:
+      tags:
+        - user
+        - software
+      summary: Get a software
+      description: Get a software
+      operationId: getSoftware
+      parameters:
+        - name: softwareId
+          in: path
+          description: Software ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Software'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /software/admin:
+    post:
+      tags:
+        - admin
+        - -software
+      summary: Post a new software
+      description: Post a new software
+      operationId: postSoftware
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Software 1
+                price:
+                  type: number
+                  format: double
+                  example: 96.00
+                team:
+                  $ref: '#/components/schemas/Team'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Software'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+    put:
+      tags:
+        - admin
+        - -software
+      summary: Update a software
+      description: Update a software
+      operationId: putSoftware
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Software'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Software'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
+  /software/admin/{softwareId}:
+    delete:
+      tags:
+        - admin
+        - -software
+      summary: Delete a software
+      description: Delete a software
+      operationId: deleteSoftware
+      parameters:
+        - name: softwareId
+          in: path
+          description: Software ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Software'
+        '400':
+          description: Invalid Request supplied
+          
+        '500':
+          description: Critical error
+          
 components:
   schemas:
     TeamMember:
@@ -58,7 +601,6 @@ components:
           type: string
           format: date-time
         team:
-          type: object
           $ref: '#/components/schemas/Team'
     Team:
       type: object
@@ -78,7 +620,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TeamMember'
-
     Software:
       type: object
       properties:
@@ -92,10 +633,8 @@ components:
           type: string
           example: 1.0.0
         team:
-          type: object
           $ref: '#/components/schemas/Team'
         project:
-          type: object
           $ref: '#/components/schemas/Project'
         status:
           type: string
@@ -114,5 +653,5 @@ components:
           format: int64
           example: 10
         projectName:
-            type: string
-            example: Project 1
+          type: string
+          example: Project 1
