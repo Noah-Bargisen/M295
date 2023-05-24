@@ -3,13 +3,16 @@ package com.ubs.m295_projectapplication.jdbc;
 import com.ubs.m295_projectapplication.service.extractor.SoftwareSetExtractor;
 import com.ubs.module.Software;
 import com.ubs.module.TeamMember;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class SoftwareDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -19,30 +22,32 @@ public class SoftwareDao {
     }
 
 
-    public List<Software> getAllSoftware() {
+    public List<Software> getAllSoftware() throws SQLException {
         try {
             List<TeamMember> teamMembers = new ArrayList<>();
             String sql = "select * from software s join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team join project p on s.project = p.projectId";
             return namedParameterJdbcTemplate.query(sql, new SoftwareSetExtractor());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.debug(e.getMessage());
+            throw new SQLException("Softwares not found.");
         }
     }
 
 
-    public Software getSoftwareById(int softwareId) {
+    public Software getSoftwareById(int softwareId) throws SQLException {
         try {
             List<TeamMember> teamMembers = new ArrayList<>();
             String sql = "select * from software s join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team join project p on s.project = p.projectId WHERE softwareId = :softwareId";
             SqlParameterSource namedParameters = new MapSqlParameterSource("softwareId", softwareId);
             return namedParameterJdbcTemplate.query(sql, namedParameters, new SoftwareSetExtractor()).get(0);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.debug(e.getMessage());
+            throw new SQLException("Software not found.");
         }
 
     }
 
-    public void addSoftware(Software software) {
+    public void addSoftware(Software software) throws SQLException {
         try {
             String sql = "insert into software (softwareId, team, project, status) values (:softwareId, :team, :project, :status)";
             SqlParameterSource paramSource = new MapSqlParameterSource()
@@ -52,11 +57,12 @@ public class SoftwareDao {
                     .addValue("status", software.getStatus().toString());
             int status = namedParameterJdbcTemplate.update(sql, paramSource);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.debug(e.getMessage());
+            throw new SQLException("Software not added.");
         }
     }
 
-    public int updateSoftware(Software software) {
+    public int updateSoftware(Software software) throws SQLException {
         try {
             String sql = "update software set softwareName = :softwareName, softwareVersion = :softwareVersion, team = :teamId, project = :projectId, status = :status where softwareId = :softwareId";
             SqlParameterSource paramSource = new MapSqlParameterSource()
@@ -68,17 +74,19 @@ public class SoftwareDao {
                     .addValue("softwareId", software.getSoftwareId());
             return namedParameterJdbcTemplate.update(sql, paramSource);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.debug(e.getMessage());
+            throw new SQLException("Software not updated.");
         }
     }
 
-    public int deleteTeamById(int softwareId) {
+    public int deleteTeamById(int softwareId) throws SQLException {
         try {
             String sql = "delete from Software where softwareId = :softwareId";
             SqlParameterSource paramSource = new MapSqlParameterSource("softwareId", softwareId);
             return namedParameterJdbcTemplate.update(sql, paramSource);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.debug(e.getMessage());
+            throw new SQLException("Software not deleted.");
         }
     }
 }

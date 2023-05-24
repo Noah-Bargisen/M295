@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
-@SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class })
+@SpringBootApplication
 @Slf4j
 public class M295ProjectApplication implements CommandLineRunner {
 

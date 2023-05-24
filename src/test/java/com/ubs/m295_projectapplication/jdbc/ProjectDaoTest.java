@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,7 +57,7 @@ class ProjectDaoTest {
     }
 
     @Test
-    void addProject() {
+    void addProject() throws SQLException {
         Project project = new Project();
         project.setProjectId(1L);
         project.setProjectName("Project1");

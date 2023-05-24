@@ -6,13 +6,22 @@ info:
 servers:
   - url: 'http://localhost:8080'
 paths:
-  /teams:
+  /admin/project:
     get:
       tags:
-        - team
-      summary: Get all teams
-      description: Get all teams
-      operationId: getTeams
+        - admin
+      summary: Post a new project
+      description: Post a new project
+      operationId: postProject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectName:
+                  type: string
+                  example: Project 1
       responses:
         '200':
           description: Successful operation
