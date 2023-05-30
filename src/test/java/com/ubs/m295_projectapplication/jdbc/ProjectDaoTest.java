@@ -37,7 +37,7 @@ class ProjectDaoTest {
     }
 
     @Test
-    void getAllProjects() throws SQLException {
+    void getAllProjects() throws Exception {
         this.projectDao.getAllProjects();
         verify(this.namedParameterJdbcTemplate).query(eq
                 ("select * from project p join software s on p.projectId = s.project join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team")
@@ -45,9 +45,9 @@ class ProjectDaoTest {
     }
 
     @Test
-    void getProjectById() throws SQLException {
+    void getProjectById() throws Exception {
         Project project = new Project();
-        project.setProjectId(1L);
+        project.setProjectId(1);
         project.setProjectName("Project1");
         when(this.namedParameterJdbcTemplate.query(anyString(), (SqlParameterSource) any(), any(ProjectSetExtractor.class)))
                 .thenReturn(List.of(project));
@@ -60,9 +60,9 @@ class ProjectDaoTest {
     }
 
     @Test
-    void addProject() throws SQLException {
+    void addProject() throws Exception {
         Project project = new Project();
-        project.setProjectId(1L);
+        project.setProjectId(1);
         project.setProjectName("Project1");
         when(this.generatedKeyHolder.getKey())
                 .thenReturn(1);
@@ -75,9 +75,9 @@ class ProjectDaoTest {
     }
 
     @Test
-    void updateProject() throws SQLException {
+    void updateProject() throws Exception {
         Project project = new Project();
-        project.setProjectId(1L);
+        project.setProjectId(1);
         project.setProjectName("Project1");
         this.projectDao.updateProject(project);
         ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
@@ -90,8 +90,8 @@ class ProjectDaoTest {
     }
 
     @Test
-    void deleteTeamById() throws SQLException {
-        this.projectDao.deleteTeamById(1);
+    void deleteProjectById() throws Exception {
+        this.projectDao.deleteProjectById(1);
         ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
                 ArgumentCaptor.forClass(MapSqlParameterSource.class);
         verify(this.namedParameterJdbcTemplate).update(eq("delete from project where projectId = :projectId")

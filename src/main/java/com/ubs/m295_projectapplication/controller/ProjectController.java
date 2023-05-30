@@ -1,21 +1,22 @@
 package com.ubs.m295_projectapplication.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubs.gen.controller.ProjectApi;
-import com.ubs.gen.module.ProjectAdminBody;
-import com.ubs.m295_projectapplication.jdbc.ProjectDao;
 import com.ubs.gen.module.Project;
+import com.ubs.m295_projectapplication.jdbc.ProjectDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.List;
-
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/m295")
 @Slf4j
-public class ProjectController extends AbstractController implements ProjectApi{
+public class ProjectController extends AbstractController implements ProjectApi {
+
     private final ProjectDao projectDao;
 
     public ProjectController(ProjectDao projectDao) {
@@ -24,81 +25,121 @@ public class ProjectController extends AbstractController implements ProjectApi{
 
 
     @Override
+    public Optional<ObjectMapper> getObjectMapper() {
+        return ProjectApi.super.getObjectMapper();
+    }
+
+    @Override
+    public Optional<HttpServletRequest> getRequest() {
+        return ProjectApi.super.getRequest();
+    }
+
+    @Override
+    public Optional<String> getAcceptHeader() {
+        return ProjectApi.super.getAcceptHeader();
+    }
+
+
+
+
+    @Override
     public ResponseEntity<List<Project>> getProjects() {
-        log.info("Getting all projects");
         try {
-            List<Project> projectList = projectDao.getAllProjects();
-            return okRespond(projectList);
-        } catch (SQLException e) {
-            log.warn("Error getting projects", e);
-
-            throw badRequestRespond(e);
-        } catch (Exception e) {
-            log.error("Critical error getting projects", e);
-            throw internalServerErrorRespond(e);
-
+            if (log.isDebugEnabled()) {
+                log.debug("Getting projects");
+            }
+            log.info("Getting projects...");
+            List<Project> projects = projectDao.getAllProjects();
+            log.info("Projects retrieved...");
+            return okRespond(projects);
+        }  catch (SQLException exception) {
+            log.warn("Error getting projects", exception);
+            throwBadRequest("Error getting projects", exception);
+        } catch (Exception exception) {
+            log.error("Critical error getting projects", exception);
+            throwInternalServerError("Critical error getting projects", exception);
         }
+        return null;
     }
 
     @Override
-    public ResponseEntity<Project> getProject(Long projectId) {
-        log.info("Getting one project");
+    public ResponseEntity<Project> createProject(Project body) {
         try {
-            Project project = projectDao.getProjectById(Math.toIntExact(projectId));
+            if (log.isDebugEnabled()) {
+                log.debug("Creating project: {}", body);
+            }
+            log.info("Creating project...");
+            projectDao.addProject(body);
+            log.info("Project created...");
+            return okRespond(body);
+        } catch (SQLException exception) {
+            log.warn("Error creating project", exception);
+            throwBadRequest("Error creating project", exception);
+        } catch (Exception exception) {
+            log.error("Critical error creating project", exception);
+            throwInternalServerError("Critical error creating project", exception);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Project> deleteProject(Integer projectId) {
+        try {
+            if (log.isDebugEnabled()) {
+                log.debug("Deleting project: {}", projectId);
+            }
+            log.info("Deleting project...");
+            projectDao.deleteProjectById(projectId);
+            log.info("Project deleted...");
+            return okRespond(null);
+        } catch (SQLException exception) {
+            log.warn("Error deleting project", exception);
+            throwBadRequest("Error deleting project", exception);
+        } catch (Exception exception) {
+            log.error("Critical error deleting project", exception);
+            throwInternalServerError("Critical error deleting project", exception);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Project> getProject(Integer projectId) {
+        try {
+            if (log.isDebugEnabled()) {
+                log.debug("Getting project: {}", projectId);
+            }
+            log.info("Getting project...");
+            Project project = projectDao.getProjectById(projectId);
+            log.info("Project retrieved...");
             return okRespond(project);
-        } catch (SQLException e) {
-            log.warn("Error getting project", e);
-            throw badRequestRespond(e);
-        } catch (Exception e) {
-            log.error("Critical error getting project", e);
-            throw internalServerErrorRespond(e);
+        } catch (SQLException exception) {
+            log.warn("Error getting project", exception);
+            throwBadRequest("Error getting project", exception);
+        } catch (Exception exception) {
+            log.error("Critical error getting project", exception);
+            throwInternalServerError("Critical error getting project", exception);
         }
+        return null;
     }
 
     @Override
-    public ResponseEntity<Project> postProject(ProjectAdminBody projectAdminBody) {
-        log.info("Posting one project");
+    public ResponseEntity<Project> updateProject(Integer projectId, Project body) {
         try {
-            Project project = new Project().projectName(projectAdminBody.getProjectName());
-            int status = projectDao.addProject(project);
-            return okRespond(project);
-        } catch (SQLException e) {
-            log.warn("Error posting project", e);
-            throw badRequestRespond(e);
-        } catch (Exception e) {
-            log.error("Critical error posting project", e);
-            throw internalServerErrorRespond(e);
+            if (log.isDebugEnabled()) {
+                log.debug("Updating project: {}", projectId);
+            }
+            log.info("Updating project...");
+            body.setProjectId(projectId);
+            projectDao.updateProject(body);
+            log.info("Project updated...");
+            return okRespond(body);
+        } catch (SQLException exception) {
+            log.warn("Error updating project", exception);
+            throwBadRequest("Error updating project", exception);
+        } catch (Exception exception) {
+            log.error("Critical error updating project", exception);
+            throwInternalServerError("Critical error updating project", exception);
         }
+        return null;
     }
-
-    @Override
-    public ResponseEntity<Project> putProject(Project project) {
-        log.info("Putting one project");
-        try {
-            int status = projectDao.updateProject(project);
-            return okRespond(project);
-        } catch (SQLException e) {
-            log.warn("Error putting project", e);
-            throw badRequestRespond(e);
-        } catch (Exception e) {
-            log.error("Critical error putting project", e);
-            throw internalServerErrorRespond(e);
-        }
-    }
-
-    @Override
-    public ResponseEntity<Integer> deleteProject(Long projectId) {
-        log.info("Deleting one project");
-        try {
-            int status = projectDao.deleteTeamById(Math.toIntExact(projectId));
-            return okRespond(status);
-        } catch (SQLException e) {
-            log.warn("Error deleting project", e);
-            throw badRequestRespond(e);
-        } catch (Exception e) {
-            log.error("Critical error deleting project", e);
-            throw internalServerErrorRespond(e);
-        }
-    }
-
 }

@@ -21,11 +21,11 @@ public class TeamSetExtractor implements ResultSetExtractor<List<Team>> {
         List<Team> optionals = new ArrayList<>();
         if(rs.next()) {
             Team team = new Team();
-            team.setTeamId(rs.getLong("teamId"));
+            team.setTeamId(rs.getInt("teamId"));
             team.setBudget(rs.getDouble("budget"));
             team.setTeamName(rs.getString("teamName"));
             TeamMember teamMember = new TeamMember();
-            teamMember.setMemberId(rs.getLong("memberId"));
+            teamMember.setMemberId(rs.getInt("memberId"));
             teamMember.setName(rs.getString("name"));
             teamMember.setFirstname(rs.getString("firstName"));
             teamMember.setJoinDate(ZonedDateTime.of(rs.getDate("joinDate").toLocalDate().atStartOfDay(), zoneId).toOffsetDateTime());

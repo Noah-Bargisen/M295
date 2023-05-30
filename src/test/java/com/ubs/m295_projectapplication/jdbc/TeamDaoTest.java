@@ -43,7 +43,7 @@ class TeamDaoTest {
     }
 
     @Test
-    void getAllTeams() throws SQLException {
+    void getAllTeams() throws Exception {
         this.teamDao.getAllTeams();
         verify(this.namedParameterJdbcTemplate).query(eq
                         ("select * from team t join software s on t.teamId = s.team join project p on s.project = p.projectId join teammember tm on t.teamId = tm.team")
@@ -51,9 +51,9 @@ class TeamDaoTest {
     }
 
     @Test
-    void getTeamById() throws SQLException {
+    void getTeamById() throws Exception {
         Team team = new Team();
-        team.setTeamId(1L);
+        team.setTeamId(1);
         team.setTeamName("Team1");
         when(this.namedParameterJdbcTemplate.query(anyString(), (SqlParameterSource) any(), any(TeamSetExtractor.class)))
                 .thenReturn(List.of(team));
@@ -66,14 +66,14 @@ class TeamDaoTest {
     }
 
     @Test
-    void addTeam() throws SQLException {
+    void addTeam() throws Exception {
         TeamMember teamMember = new TeamMember();
         teamMember.setName("TeamMember1");
         teamMember.setJoinDate(OffsetDateTime.now());
         teamMember.setFirstname("TeamMember1");
-        teamMember.setMemberId(1L);
+        teamMember.setMemberId(1);
         Team team = new Team();
-        team.setTeamId(1L);
+        team.setTeamId(1);
         team.setTeamName("Team1");
         team.setBudget(1000.00);
         teamMember.setTeam(team);
@@ -91,14 +91,14 @@ class TeamDaoTest {
     }
 
     @Test
-    void updateTeam() throws SQLException {
+    void updateTeam() throws Exception {
         TeamMember teamMember = new TeamMember();
         teamMember.setName("TeamMember1");
         teamMember.setJoinDate(OffsetDateTime.now());
         teamMember.setFirstname("TeamMember1");
-        teamMember.setMemberId(1L);
+        teamMember.setMemberId(1);
         Team team = new Team();
-        team.setTeamId(1L);
+        team.setTeamId(1);
         team.setTeamName("Team1");
         team.setBudget(1000.00);
         teamMember.setTeam(team);
@@ -115,7 +115,7 @@ class TeamDaoTest {
     }
 
     @Test
-    void deleteTeamById() throws SQLException {
+    void deleteTeamById() throws Exception {
         this.teamDao.deleteTeamById(1);
         ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
                 ArgumentCaptor.forClass(MapSqlParameterSource.class);

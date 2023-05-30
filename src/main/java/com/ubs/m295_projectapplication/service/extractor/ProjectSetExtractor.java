@@ -23,7 +23,7 @@ public class ProjectSetExtractor implements ResultSetExtractor<List<Project>> {
         if(rs.next()) {
             Project project = new Project();
             project.setProjectName(rs.getString("projectName"));
-            project.setProjectId(rs.getLong("projectId"));
+            project.setProjectId(rs.getInt("projectId"));
             projectArrayList.add(project);
             return projectArrayList;
         }else{

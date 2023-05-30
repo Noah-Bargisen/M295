@@ -1,103 +1,122 @@
 package com.ubs.m295_projectapplication.controller;
 
-import com.ubs.m295_projectapplication.jdbc.TeamDao;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubs.gen.controller.TeamApi;
 import com.ubs.gen.module.Team;
+import com.ubs.m295_projectapplication.jdbc.TeamDao;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/m295")
 @Slf4j
-public class TeamController {
-
-    private final static String GET_ALL_TEAM_PATH = "/team";
-    private final static String GET_ONE_TEAM_PATH = "/team/{teamId}";
-    private final static String ADMIN_POST_TEAM_PATH = "/admin/team";
-    private final static String ADMIN_PUT_TEAM_PATH = "/admin/team";
-    private final static String ADMIN_DELETE_TEAM_PATH = "/admin/team/{teamId}";
+public class TeamController extends AbstractController implements TeamApi {
 
     private final TeamDao teamDao;
 
     public TeamController(TeamDao teamDao) {
         this.teamDao = teamDao;
     }
-
-    @GetMapping(GET_ALL_TEAM_PATH)
-    public @ResponseBody ResponseEntity getAllTeams() {
-        log.info("Getting all teams");
-        try {
-            List<Team> teamList = teamDao.getAllTeams();
-            return ResponseEntity.ok().body(teamList);
-        } catch (SQLException e) {
-            log.warn("Error getting teams", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error getting teams", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    @Override
+    public Optional<ObjectMapper> getObjectMapper() {
+        return TeamApi.super.getObjectMapper();
     }
 
-    @GetMapping(GET_ONE_TEAM_PATH)
-    public @ResponseBody ResponseEntity getOneTeam(@PathVariable("teamId") int teamId) {
-        log.info("Getting one team");
+    @Override
+    public Optional<HttpServletRequest> getRequest() {
+        return TeamApi.super.getRequest();
+    }
+
+    @Override
+    public Optional<String> getAcceptHeader() {
+        return TeamApi.super.getAcceptHeader();
+    }
+
+
+
+
+    @Override
+    public ResponseEntity<Team> createTeam(Team body) {
         try {
+            if (log.isDebugEnabled()) {
+                log.debug("Creating team: {}", body);
+            }
+            log.info("Creating team...");
+            teamDao.addTeam(body);
+            log.info("Team created...");
+            return okRespond(body);
+        } catch (SQLException exception) {
+            log.warn("Error creating team", exception);
+            throwBadRequest("Error creating team", exception);
+        } catch (Exception exception) {
+            log.error("Critical error creating team", exception);
+            throwInternalServerError("Critical error creating team", exception);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Team> deleteTeam(Integer teamId) {
+        try{
+            if(log.isDebugEnabled()) {
+                log.debug("Deleting team: {}", teamId);
+            }
+            log.info("Deleting team...");
+            teamDao.deleteTeamById(teamId);
+            log.info("Team deleted...");
+            return okRespond(null);
+        } catch (DataAccessException exception) {
+            log.warn("Error deleting team", exception);
+            throwBadRequest("Error deleting team", exception);
+        } catch (Exception exception) {
+            throwInternalServerError("Critical error deleting team", exception);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Team> getTeam(Integer teamId) {
+        try {
+            if(log.isDebugEnabled()) {
+                log.debug("Getting team: {}", teamId);
+            }
+            log.info("Getting team...");
             Team team = teamDao.getTeamById(teamId);
-            return ResponseEntity.ok().body(team);
-        } catch (SQLException e) {
-            log.warn("Error getting team", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error getting team", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            log.info("Team retrieved...");
+            return okRespond(team);
+        } catch (DataAccessException exception) {
+            log.warn("Error getting team", exception);
+            throwBadRequest("Error getting team", exception);
+        } catch (Exception exception) {
+            log.error("Critical error getting team", exception);
+            throwInternalServerError("Critical error getting team", exception);
         }
+        return null;
     }
 
-    @PostMapping(ADMIN_POST_TEAM_PATH)
-    public ResponseEntity postTeam(@RequestBody Team team) {
-        log.info("Posting one team");
+    @Override
+    public ResponseEntity<Team> updateTeam(Integer teamId, Team body) {
         try {
-            int status = teamDao.addTeam(team);
-            return ResponseEntity.ok().body(status);
-        } catch (SQLException e) {
-            log.warn("Error posting team", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error posting team", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            if (log.isDebugEnabled()) {
+                log.debug("Updating team: {}", body);
+            }
+            log.info("Updating team...");
+            body.setTeamId(teamId);
+            teamDao.updateTeam(body);
+            log.info("Team updated...");
+            return okRespond(body);
+        } catch (DataAccessException exception) {
+            log.warn("Error updating team", exception);
+            log.warn("Error updating team", exception);
+        } catch (Exception exception) {
+            log.error("Critical error updating team", exception);
+            throwInternalServerError("Critical error updating team", exception);
         }
-    }
-
-    @PutMapping(ADMIN_PUT_TEAM_PATH)
-    public ResponseEntity putTeam(@RequestBody Team team) {
-        log.info("Putting one team");
-        try {
-            int status = teamDao.updateTeam(team);
-            return ResponseEntity.ok().body(status);
-        } catch (SQLException e) {
-            log.warn("Error putting team", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error putting team", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
-    }
-
-    @DeleteMapping(ADMIN_DELETE_TEAM_PATH)
-    public ResponseEntity deleteTeam(@PathVariable("teamId") int teamId) {
-        log.info("Deleting one team");
-        try {
-            int status = teamDao.deleteTeamById(teamId);
-            return ResponseEntity.ok().body(status);
-        } catch (SQLException e) {
-            log.warn("Error deleting team", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error deleting team", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+        return null;
     }
 }

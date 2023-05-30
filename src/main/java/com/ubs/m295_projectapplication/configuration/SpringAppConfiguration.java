@@ -14,7 +14,7 @@ public class SpringAppConfiguration {
 
     @Bean
     TeamMemberDao teamMemberDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate)  {
-        return new TeamMemberDao(namedParameterJdbcTemplate);
+        return new TeamMemberDao(namedParameterJdbcTemplate, new GeneratedKeyHolder());
     }
 
     @Bean

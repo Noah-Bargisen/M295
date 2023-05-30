@@ -1,27 +1,21 @@
 package com.ubs.m295_projectapplication.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubs.gen.controller.SoftwareApi;
-import com.ubs.m295_projectapplication.jdbc.SoftwareDao;
-import com.ubs.m295_projectapplication.jdbc.TeamMemberDao;
 import com.ubs.gen.module.Software;
+import com.ubs.m295_projectapplication.jdbc.SoftwareDao;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.SQLException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/m295")
 @Slf4j
 public class SoftwareController extends AbstractController implements SoftwareApi {
-
-    private final static String GET_ALL_SOFTWARE_PATH = "/software";
-    private final static String GET_ONE_SOFTWARE_PATH = "/software/{softwareId}";
-
-    private final static String ADMIN_POST_SOFTWARE_PATH = "/admin/software";
-    private final static String ADMIN_PUT_SOFTWARE_PATH = "/admin/software";
-    private final static String ADMIN_DELETE_SOFTWARE_PATH = "/admin/software/{softwareId}";
 
     private final SoftwareDao softwareDao;
 
@@ -29,94 +23,122 @@ public class SoftwareController extends AbstractController implements SoftwareAp
         this.softwareDao = softwareDao;
     }
 
-    @GetMapping(GET_ALL_SOFTWARE_PATH)
-    public @ResponseBody ResponseEntity getAllSoftware() {
-        log.info("Getting all software");
-        try {
-            List<Software> softwareList = softwareDao.getAllSoftware();
-            return ResponseEntity.ok().body(softwareList);
-        } catch (SQLException e) {
-            log.warn("Error getting software", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error getting software", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+
+    @Override
+    public Optional<ObjectMapper> getObjectMapper() {
+        return SoftwareApi.super.getObjectMapper();
     }
 
-    @GetMapping(GET_ONE_SOFTWARE_PATH)
-    public @ResponseBody ResponseEntity getOneSoftware(@PathVariable("softwareId") int softwareId) {
-        log.info("Getting one software");
-        try {
-            Software software = softwareDao.getSoftwareById(softwareId);
-            return ResponseEntity.ok().body(software);
-        } catch (SQLException e) {
-            log.warn("Error getting software", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error getting software", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    @Override
+    public Optional<HttpServletRequest> getRequest() {
+        return SoftwareApi.super.getRequest();
     }
 
-    @PostMapping(ADMIN_POST_SOFTWARE_PATH)
-    public ResponseEntity postSoftware(@RequestBody Software software) {
-        log.info("Posting one software");
-        try {
-            int status = softwareDao.addSoftware(software);
-            return ResponseEntity.ok().body(status);
-        } catch (SQLException e) {
-            log.warn("Error posting software", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error posting software", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+    @Override
+    public Optional<String> getAcceptHeader() {
+        return SoftwareApi.super.getAcceptHeader();
     }
 
-    @PutMapping(ADMIN_PUT_SOFTWARE_PATH)
-    public ResponseEntity putSoftware(@RequestBody Software software) {
-        log.info("Putting one software");
-        try {
-            int status = softwareDao.updateSoftware(software);
-            return ResponseEntity.ok().body(status);
-        } catch (SQLException e) {
-            log.warn("Error putting software", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error putting software", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
-    }
 
-    @DeleteMapping(ADMIN_DELETE_SOFTWARE_PATH)
-    public ResponseEntity deleteSoftware(@PathVariable("softwareId") int softwareId) {
-        log.info("Deleting one software");
-        try {
-            int status = softwareDao.deleteTeamById(softwareId);
-            return ResponseEntity.ok().body(status);
-        } catch (SQLException e) {
-            log.warn("Error deleting software", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            log.error("Critical error deleting software", e);
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
-    }
 
 
     @Override
     public ResponseEntity<List<Software>> getSoftwares() {
-        log.info("Getting all software");
         try {
-            List<Software> softwareList = softwareDao.getAllSoftware();
-            return ResponseEntity.ok().body(softwareList);
-        } catch (SQLException e) {
-            log.warn("Error getting software", e);
-            throw badRequestRespond(e);
-        } catch (Exception e) {
-            log.error("Critical error getting software", e);
-            throw internalServerErrorRespond(e);
+            if (log.isDebugEnabled()) {
+                log.debug("Getting softwares");
+            }
+            log.info("Getting softwares...");
+            List<Software> softwares = softwareDao.getAllSoftware();
+            log.info("Softwares retrieved...");
+        } catch (DataAccessException exception) {
+            log.warn("Error getting softwares", exception);
+            throwBadRequest("Error getting softwares", exception);
+        } catch (Exception exception) {
+            log.error("Critical error getting softwares", exception);
+            throwInternalServerError("Critical error getting softwares", exception);
         }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Software> createSoftware(Software body) {
+        try {
+            if (log.isDebugEnabled()) {
+                log.debug("Creating software");
+            }
+            log.info("Creating software...");
+            softwareDao.addSoftware(body);
+            log.info("Software created...");
+            return okRespond(null);
+        } catch (DataAccessException exception) {
+            log.warn("Error creating software", exception);
+            throwBadRequest("Error creating software", exception);
+        } catch (Exception exception) {
+            log.error("Critical error creating software", exception);
+            throwInternalServerError("Critical error creating software", exception);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Software> deleteSoftware(String softwareId) {
+        try {
+            if (log.isDebugEnabled()) {
+                log.debug("Deleting software");
+            }
+            log.info("Deleting software...");
+            softwareDao.deleteSoftwareById(softwareId);
+            log.info("Software deleted...");
+            return okRespond(null);
+        } catch (DataAccessException exception) {
+            log.warn("Error deleting software", exception);
+            throwBadRequest("Error deleting software", exception);
+        } catch (Exception exception) {
+            log.error("Critical error deleting software", exception);
+            throwInternalServerError("Critical error deleting software", exception);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Software> getSoftware(String softwareId) {
+        try {
+            if (log.isDebugEnabled()) {
+                log.debug("Getting software");
+            }
+            log.info("Getting software...");
+            Software software = softwareDao.getSoftwareById(softwareId);
+            log.info("Software retrieved...");
+            return okRespond(software);
+        } catch (DataAccessException exception) {
+            log.warn("Error getting software", exception);
+            throwBadRequest("Error getting software", exception);
+        } catch (Exception exception) {
+            log.error("Critical error getting software", exception);
+            throwInternalServerError("Critical error getting software", exception);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Software> updateSoftware(String softwareId, Software body) {
+        try {
+            if (log.isDebugEnabled()) {
+                log.debug("Updating software");
+            }
+            log.info("Updating software...");
+            body.setSoftwareId(softwareId);
+            softwareDao.updateSoftware(body);
+            log.info("Software updated...");
+            return okRespond(null);
+        } catch (DataAccessException exception) {
+            log.warn("Error updating software", exception);
+            throwBadRequest("Error updating software", exception);
+        } catch (Exception exception) {
+            log.error("Critical error updating software", exception);
+            throwInternalServerError("Critical error updating software", exception);
+        }
+        return null;
     }
 }

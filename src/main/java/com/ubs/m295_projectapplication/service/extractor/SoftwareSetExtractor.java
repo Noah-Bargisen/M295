@@ -26,19 +26,19 @@ public class SoftwareSetExtractor implements ResultSetExtractor<List<Software>> 
             software.setSoftwareName(rs.getString("softwareName"));
             software.setSoftwareVersion(rs.getString("softwareVersion"));
             Team team = new Team();
-            team.setTeamId(rs.getLong("teamId"));
+            team.setTeamId(rs.getInt("teamId"));
             team.setTeamName(rs.getString("teamName"));
             team.setBudget(rs.getDouble("budget"));
             TeamMember teamMember = new TeamMember();
             teamMember.setName(rs.getString("name"));
             teamMember.setFirstname(rs.getString("firstName"));
             teamMember.setTeam(team);
-            teamMember.setMemberId(rs.getLong("memberId"));
+            teamMember.setMemberId(rs.getInt("memberId"));
             teamMember.setJoinDate(ZonedDateTime.of(rs.getDate("joinDate").toLocalDate().atStartOfDay(), zoneId).toOffsetDateTime());
             teamMembers.add(teamMember);
             team.setTeamMembers(teamMembers);
             Project project = new Project();
-            project.setProjectId(rs.getLong("projectId"));
+            project.setProjectId(rs.getInt("projectId"));
             project.setProjectName(rs.getString("projectName"));
 
             software.setTeam(team);
