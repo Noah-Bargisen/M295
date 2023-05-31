@@ -1,6 +1,5 @@
 package com.ubs.m295_projectapplication.service.extractor;
 
-import com.ubs.gen.module.Project;
 import com.ubs.gen.module.Team;
 import com.ubs.gen.module.TeamMember;
 import org.springframework.dao.DataAccessException;
@@ -12,7 +11,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TeamMemberSetExtractor implements ResultSetExtractor<List<TeamMember>> {
     @Override
@@ -20,7 +18,7 @@ public class TeamMemberSetExtractor implements ResultSetExtractor<List<TeamMembe
         ZoneId zoneId = ZoneId.systemDefault();
         List<TeamMember> teamMembers = new ArrayList<>();
         List<TeamMember> teamMemberArrayList = new ArrayList<>();
-        if(rs.next()) {
+        while(rs.next()) {
             Team team = new Team();
             team.setTeamId(rs.getInt("teamId"));
             team.setBudget(rs.getDouble("budget"));
@@ -35,10 +33,7 @@ public class TeamMemberSetExtractor implements ResultSetExtractor<List<TeamMembe
             team.setTeamMembers(teamMembers);
 
             teamMemberArrayList.add(teamMember);
-            return teamMemberArrayList;
-        }else{
-            teamMemberArrayList.clear();
-            return teamMemberArrayList;
         }
+        return teamMemberArrayList;
     }
 }

@@ -23,17 +23,20 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/project/**")
+                        .requestMatchers("/project/admin/**")
                         .hasRole("USER")
-                        .requestMatchers("/team/**")
+                        .requestMatchers("/team/admin/**")
                         .hasRole("USER")
-                        .requestMatchers("/software/**")
+                        .requestMatchers("/software/admin/**")
                         .hasRole("USER")
-                        .requestMatchers("/teamMember/**")
+                        .requestMatchers("/teamMember/admin/**")
                         .hasRole("USER")
                         .anyRequest()
                         .permitAll())
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .csrf((csrf) -> csrf.disable());
+
+
         //
         //http.authorizeHttpRequests((request) -> request
         //                .anyRequest()

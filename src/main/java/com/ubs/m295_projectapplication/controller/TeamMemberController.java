@@ -3,6 +3,7 @@ package com.ubs.m295_projectapplication.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubs.gen.controller.TeamMemberApi;
 import com.ubs.gen.module.TeamMember;
+import com.ubs.gen.module.TeamMemberRequest;
 import com.ubs.m295_projectapplication.jdbc.TeamMemberDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -63,15 +64,15 @@ public class TeamMemberController extends AbstractController implements TeamMemb
     }
 
     @Override
-    public ResponseEntity<TeamMember> createTeamMember(TeamMember body) {
+    public ResponseEntity<Integer> createTeamMember(TeamMemberRequest body) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Creating team member");
             }
             log.info("Creating team member...");
-            teamMemberDao.addTeamMember(body);
+            int id = teamMemberDao.addTeamMember(body);
             log.info("Team member created...");
-            return okRespond(null);
+            return okRespond(id);
         } catch (SQLException exception) {
             log.warn("Error creating team member", exception);
             throwBadRequest("Error creating team member", exception);
@@ -123,16 +124,15 @@ public class TeamMemberController extends AbstractController implements TeamMemb
     }
 
     @Override
-    public ResponseEntity<TeamMember> updateTeamMember(Integer memberId, TeamMember body) {
+    public ResponseEntity<TeamMember> updateTeamMember(Integer memberId, TeamMemberRequest body) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Updating team member");
             }
             log.info("Updating team member...");
-            body.setMemberId(memberId);
-            teamMemberDao.updateTeamMember(body);
+            teamMemberDao.updateTeamMember(memberId, body);
             log.info("Team member updated...");
-            return okRespond(null);
+            return okRespond(teamMemberDao.getTeamMemberById(memberId));
         } catch (SQLException exception) {
             log.warn("Error updating team member", exception);
             throwBadRequest("Error updating team member", exception);

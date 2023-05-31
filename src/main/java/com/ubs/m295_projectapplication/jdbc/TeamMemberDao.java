@@ -1,7 +1,8 @@
 package com.ubs.m295_projectapplication.jdbc;
 
-import com.ubs.m295_projectapplication.service.extractor.TeamMemberSetExtractor;
 import com.ubs.gen.module.TeamMember;
+import com.ubs.gen.module.TeamMemberRequest;
+import com.ubs.m295_projectapplication.service.extractor.TeamMemberSetExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -26,7 +27,7 @@ public class TeamMemberDao {
 
     public List<TeamMember> getAllTeamMember() throws Exception {
         try {
-            String sql = "select * from teammember tm join team t on tm.team = t.teamId join software s on t.teamId = s.team join project p on s.project = p.projectId";
+            String sql = "select * from teammember tm join team t on tm.team = t.teamId";
             return namedParameterJdbcTemplate.query(sql, new TeamMemberSetExtractor());
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());
@@ -40,10 +41,10 @@ public class TeamMemberDao {
 
     public TeamMember getTeamMemberById(int memberId) throws Exception {
         try {
-            String sql = "select * from teammember tm join team t on tm.team = t.teamId join software s on t.teamId = s.team join project p on s.project = p.projectId WHERE memberId = :memberId";
+            String sql = "select * from teammember tm join team t on tm.team = t.teamId WHERE memberId = :memberId";
             SqlParameterSource namedParameters = new MapSqlParameterSource("memberId", memberId);
             return namedParameterJdbcTemplate.query(sql, namedParameters, new TeamMemberSetExtractor()).get(0);
-        } catch (DataAccessException exception) {
+        } catch (DataAccessException | IndexOutOfBoundsException exception) {
             log.debug(exception.getMessage());
             throw new SQLException("Team member not found.", exception);
         } catch (Exception exception) {
@@ -52,19 +53,17 @@ public class TeamMemberDao {
         }
     }
 
-    public int addTeamMember(TeamMember teamMember) throws Exception {
+    public int addTeamMember(TeamMemberRequest teamMemberRequest) throws Exception {
         try {
             String sql = "insert into TEAMMEMBER (name, firstname, joinDate, team) values (:name, :firstname, :joinDate, :teamId)";
             SqlParameterSource paramSource = new MapSqlParameterSource()
-                    .addValue("name", teamMember.getName())
-                    .addValue("firstname", teamMember.getFirstname())
-                    .addValue("joinDate", teamMember.getJoinDate())
-                    .addValue("teamId", teamMember.getTeam().getTeamId());
-            int status = namedParameterJdbcTemplate.update(sql, paramSource, generatedKeyHolder);
+                    .addValue("name", teamMemberRequest.getName())
+                    .addValue("firstname", teamMemberRequest.getFirstname())
+                    .addValue("joinDate", teamMemberRequest.getJoinDate())
+                    .addValue("teamId", teamMemberRequest.getTeamId());
+            namedParameterJdbcTemplate.update(sql, paramSource, generatedKeyHolder);
             int id = generatedKeyHolder.getKey().intValue();
-            System.out.println(id);
-            teamMember.setMemberId(id);
-            return status;
+            return id;
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());
             throw new SQLException("Team member not added.", exception);
@@ -74,15 +73,15 @@ public class TeamMemberDao {
         }
     }
 
-    public int updateTeamMember(TeamMember teamMember) throws Exception {
+    public int updateTeamMember(Integer teamMemberId, TeamMemberRequest teamMemberRequest) throws Exception {
         try {
             String sql = "update TEAMMEMBER set name = :name, firstname = :firstname, joinDate = :joinDate, team = :teamId where memberId = :memberId";
             SqlParameterSource paramSource = new MapSqlParameterSource()
-                    .addValue("name", teamMember.getName())
-                    .addValue("firstname", teamMember.getFirstname())
-                    .addValue("joinDate", teamMember.getJoinDate())
-                    .addValue("teamId", teamMember.getTeam().getTeamId())
-                    .addValue("memberId", teamMember.getMemberId());
+                    .addValue("name", teamMemberRequest.getName())
+                    .addValue("firstname", teamMemberRequest.getFirstname())
+                    .addValue("joinDate", teamMemberRequest.getJoinDate())
+                    .addValue("teamId", teamMemberRequest.getTeamId())
+                    .addValue("memberId", teamMemberId);
             return namedParameterJdbcTemplate.update(sql, paramSource);
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());

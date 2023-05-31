@@ -3,6 +3,7 @@ package com.ubs.m295_projectapplication.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubs.gen.controller.SoftwareApi;
 import com.ubs.gen.module.Software;
+import com.ubs.gen.module.SoftwareRequest;
 import com.ubs.m295_projectapplication.jdbc.SoftwareDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
@@ -62,7 +63,7 @@ public class SoftwareController extends AbstractController implements SoftwareAp
     }
 
     @Override
-    public ResponseEntity<Software> createSoftware(Software body) {
+    public ResponseEntity<Integer> createSoftware(SoftwareRequest body) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Creating software");
@@ -122,14 +123,13 @@ public class SoftwareController extends AbstractController implements SoftwareAp
     }
 
     @Override
-    public ResponseEntity<Software> updateSoftware(String softwareId, Software body) {
+    public ResponseEntity<Software> updateSoftware(String softwareId, SoftwareRequest body) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Updating software");
             }
             log.info("Updating software...");
-            body.setSoftwareId(softwareId);
-            softwareDao.updateSoftware(body);
+            softwareDao.updateSoftware(softwareId, body);
             log.info("Software updated...");
             return okRespond(null);
         } catch (DataAccessException exception) {

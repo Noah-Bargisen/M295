@@ -9,10 +9,10 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.*;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class SoftwareSetExtractor implements ResultSetExtractor<List<Software>> {
     @Override
@@ -20,7 +20,7 @@ public class SoftwareSetExtractor implements ResultSetExtractor<List<Software>> 
         List<TeamMember> teamMembers = new ArrayList<>();
         ZoneId zoneId = ZoneId.systemDefault();
         List<Software> softwareArrayList = new ArrayList<>();
-        if(rs.next()) {
+        while(rs.next()) {
             Software software = new Software();
             software.setSoftwareId(rs.getString("softwareId"));
             software.setSoftwareName(rs.getString("softwareName"));
@@ -45,10 +45,7 @@ public class SoftwareSetExtractor implements ResultSetExtractor<List<Software>> 
             software.setProject(project);
             software.setStatus(Software.StatusEnum.fromValue((rs.getString("status"))));
             softwareArrayList.add(software);
-            return softwareArrayList;
-        }else{
-            softwareArrayList.clear();
-            return softwareArrayList;
         }
+        return softwareArrayList;
     }
 }

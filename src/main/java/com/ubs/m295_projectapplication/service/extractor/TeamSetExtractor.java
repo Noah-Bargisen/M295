@@ -11,15 +11,15 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TeamSetExtractor implements ResultSetExtractor<List<Team>> {
     @Override
     public List<Team> extractData(ResultSet rs) throws SQLException, DataAccessException {
         ZoneId zoneId = ZoneId.systemDefault();
         List<TeamMember> teamMembers = new ArrayList<>();
-        List<Team> optionals = new ArrayList<>();
-        if(rs.next()) {
+        List<Team> teamArrayList = new ArrayList<>();
+
+        while(rs.next()) {
             Team team = new Team();
             team.setTeamId(rs.getInt("teamId"));
             team.setBudget(rs.getDouble("budget"));
@@ -33,11 +33,8 @@ public class TeamSetExtractor implements ResultSetExtractor<List<Team>> {
             teamMembers.add(teamMember);
             team.setTeamMembers(teamMembers);
 
-            optionals.add(team);
-            return optionals;
-        }else{
-            optionals.clear();
-            return optionals;
+            teamArrayList.add(team);
         }
+        return teamArrayList;
     }
 }

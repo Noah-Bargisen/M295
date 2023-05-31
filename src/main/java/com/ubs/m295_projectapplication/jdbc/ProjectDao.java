@@ -1,8 +1,9 @@
 package com.ubs.m295_projectapplication.jdbc;
 
-import com.ubs.m295_projectapplication.service.extractor.ProjectSetExtractor;
 import com.ubs.gen.module.Project;
+import com.ubs.gen.module.ProjectRequest;
 import com.ubs.gen.module.TeamMember;
+import com.ubs.m295_projectapplication.service.extractor.ProjectSetExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -30,7 +31,7 @@ public class ProjectDao {
 
     public List<Project> getAllProjects() throws Exception {
         try {
-        String sql = "select * from project p join software s on p.projectId = s.project join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team";
+        String sql = "select * from project p";
         return namedParameterJdbcTemplate.query(sql, new ProjectSetExtractor());
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());
@@ -44,7 +45,7 @@ public class ProjectDao {
 
     public Project getProjectById(int projectId) throws Exception {
         try {
-        String sql = "select * from project p join software s on p.projectId = s.project join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team where projectId = :projectId";
+        String sql = "select * from project p where projectId = :projectId";
         SqlParameterSource namedParameters = new MapSqlParameterSource("projectId", projectId);
         return Objects.requireNonNull(namedParameterJdbcTemplate.query(sql, namedParameters, new ProjectSetExtractor())).get(0);
         } catch (DataAccessException | IndexOutOfBoundsException exception) {
@@ -56,15 +57,14 @@ public class ProjectDao {
         }
     }
 
-    public int addProject(Project project) throws Exception {
+    public int addProject(ProjectRequest projectRequest) throws Exception {
         try {
         String sql = "insert into project (projectName) values (:projectName)";
         SqlParameterSource paramSource = new MapSqlParameterSource()
-                .addValue("projectName", project.getProjectName());
-        int status = namedParameterJdbcTemplate.update(sql, paramSource, this.generatedKeyHolder);
+                .addValue("projectName", projectRequest.getProjectName());
+        namedParameterJdbcTemplate.update(sql, paramSource, this.generatedKeyHolder);
         int id = this.generatedKeyHolder.getKey().intValue();
-        project.setProjectId(id);
-        return status;
+        return id;
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());
             throw new SQLException("Project not added.", exception);
@@ -74,12 +74,12 @@ public class ProjectDao {
         }
     }
 
-    public int updateProject(Project project) throws Exception {
+    public int updateProject(Integer projectId, ProjectRequest projectRequest) throws Exception {
         try {
         String sql = "update project set projectName = :projectName where projectId = :projectId";
         SqlParameterSource paramSource = new MapSqlParameterSource()
-                .addValue("projectName", project.getProjectName())
-                .addValue("projectId", project.getProjectId());
+                .addValue("projectName", projectRequest.getProjectName())
+                .addValue("projectId", projectId);
         return namedParameterJdbcTemplate.update(sql, paramSource);
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());

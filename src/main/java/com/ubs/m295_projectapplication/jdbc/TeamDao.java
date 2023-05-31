@@ -1,8 +1,9 @@
 package com.ubs.m295_projectapplication.jdbc;
 
-import com.ubs.m295_projectapplication.service.extractor.TeamSetExtractor;
 import com.ubs.gen.module.Team;
 import com.ubs.gen.module.TeamMember;
+import com.ubs.gen.module.TeamRequest;
+import com.ubs.m295_projectapplication.service.extractor.TeamSetExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -30,7 +31,7 @@ public class TeamDao {
 
     public List<Team> getAllTeams() throws Exception {
         try {
-            String sql = "select * from team t join software s on t.teamId = s.team join project p on s.project = p.projectId join teammember tm on t.teamId = tm.team";
+            String sql = "select * from teammember tm join team t on tm.team = t.teamId";
             return namedParameterJdbcTemplate.query(sql, new TeamSetExtractor());
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());
@@ -44,10 +45,10 @@ public class TeamDao {
 
     public Team getTeamById(int teamId) throws Exception {
         try {
-            String sql = "select * from team t join software s on t.teamId = s.team join project p on s.project = p.projectId join teammember tm on t.teamId = tm.team WHERE teamId = :teamId";
+            String sql = "select * from team t join teammember tm on t.teamId = tm.team WHERE teamId = :teamId";
             SqlParameterSource namedParameters = new MapSqlParameterSource("teamId", teamId);
             return namedParameterJdbcTemplate.query(sql, namedParameters, new TeamSetExtractor()).get(0);
-        } catch (DataAccessException exception) {
+        } catch (DataAccessException | IndexOutOfBoundsException exception) {
             log.debug(exception.getMessage());
             throw new SQLException("Team not found.", exception);
         } catch (Exception exception) {
@@ -56,17 +57,15 @@ public class TeamDao {
         }
     }
 
-    public int addTeam(Team team) throws Exception {
+    public int addTeam(TeamRequest team) throws Exception {
         try {
             String sql = "insert into team (teamName, budget) values (:teamName, :budget)";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                     .addValue("teamName", team.getTeamName())
                     .addValue("budget", team.getBudget());
-            int status = namedParameterJdbcTemplate.update(sql, paramSource, generatedKeyHolder);
+            namedParameterJdbcTemplate.update(sql, paramSource, generatedKeyHolder);
             int id = generatedKeyHolder.getKey().intValue();
-            System.out.println(id);
-            team.setTeamId(id);
-            return status;
+            return id;
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());
             throw new SQLException("Team not added.", exception);
@@ -76,13 +75,13 @@ public class TeamDao {
         }
     }
 
-    public int updateTeam(Team team) throws Exception {
+    public int updateTeam(Integer teamId, TeamRequest teamRequest) throws Exception {
         try {
             String sql = "update team set teamName = :teamName, budget = :budget where teamId = :teamId";
             SqlParameterSource paramSource = new MapSqlParameterSource()
-                    .addValue("teamName", team.getTeamName())
-                    .addValue("budget", team.getBudget())
-                    .addValue("teamId", team.getTeamId());
+                    .addValue("teamName", teamRequest.getTeamName())
+                    .addValue("budget", teamRequest.getBudget())
+                    .addValue("teamId", teamId);
             return namedParameterJdbcTemplate.update(sql, paramSource);
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());

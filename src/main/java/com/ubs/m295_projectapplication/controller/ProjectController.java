@@ -3,6 +3,7 @@ package com.ubs.m295_projectapplication.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubs.gen.controller.ProjectApi;
 import com.ubs.gen.module.Project;
+import com.ubs.gen.module.ProjectRequest;
 import com.ubs.m295_projectapplication.jdbc.ProjectDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -63,15 +64,15 @@ public class ProjectController extends AbstractController implements ProjectApi 
     }
 
     @Override
-    public ResponseEntity<Project> createProject(Project body) {
+    public ResponseEntity<Integer> createProject(ProjectRequest body) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Creating project: {}", body);
             }
             log.info("Creating project...");
-            projectDao.addProject(body);
+            int id = projectDao.addProject(body);
             log.info("Project created...");
-            return okRespond(body);
+            return okRespond(id);
         } catch (SQLException exception) {
             log.warn("Error creating project", exception);
             throwBadRequest("Error creating project", exception);
@@ -123,16 +124,15 @@ public class ProjectController extends AbstractController implements ProjectApi 
     }
 
     @Override
-    public ResponseEntity<Project> updateProject(Integer projectId, Project body) {
+    public ResponseEntity<Project> updateProject(Integer projectId, ProjectRequest body) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Updating project: {}", projectId);
             }
             log.info("Updating project...");
-            body.setProjectId(projectId);
-            projectDao.updateProject(body);
+            projectDao.updateProject(projectId, body);
             log.info("Project updated...");
-            return okRespond(body);
+            return okRespond(projectDao.getProjectById(projectId));
         } catch (SQLException exception) {
             log.warn("Error updating project", exception);
             throwBadRequest("Error updating project", exception);

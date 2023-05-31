@@ -1,9 +1,7 @@
 package com.ubs.m295_projectapplication.jdbc;
 
-import com.ubs.gen.module.Project;
-import com.ubs.gen.module.Team;
 import com.ubs.gen.module.TeamMember;
-import com.ubs.m295_projectapplication.service.extractor.ProjectSetExtractor;
+import com.ubs.gen.module.TeamMemberRequest;
 import com.ubs.m295_projectapplication.service.extractor.TeamMemberSetExtractor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,11 +14,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,10 +40,10 @@ public class TeamMemberDaoTest {
     }
 
     @Test
-    void getAllProjects() throws Exception {
+    void getAllTeamMembers() throws Exception {
         this.teamMemberDao.getAllTeamMember();
         verify(this.namedParameterJdbcTemplate).query(eq
-                        ("select * from teammember tm join team t on tm.team = t.teamId join software s on t.teamId = s.team join project p on s.project = p.projectId")
+                        ("select * from teammember tm join team t on tm.team = t.teamId")
                 , any(TeamMemberSetExtractor.class));
     }
 
@@ -61,7 +59,7 @@ public class TeamMemberDaoTest {
         ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
                 ArgumentCaptor.forClass(MapSqlParameterSource.class);
         verify(this.namedParameterJdbcTemplate).query(eq
-                        ("select * from teammember tm join team t on tm.team = t.teamId join software s on t.teamId = s.team join project p on s.project = p.projectId WHERE memberId = :memberId")
+                        ("select * from teammember tm join team t on tm.team = t.teamId WHERE memberId = :memberId")
                 ,argumentCaptor.capture(), any(TeamMemberSetExtractor.class));
 
         assertEquals(1, argumentCaptor.getValue().getValue("memberId"));
@@ -70,44 +68,60 @@ public class TeamMemberDaoTest {
 
     @Test
     void addTeamMember() throws Exception {
-        TeamMember teamMember = new TeamMember().memberId(1).firstname("firstname").name("lastname").joinDate(OffsetDateTime.now()).team(new Team().teamId(1).budget(100.00));
+        TeamMemberRequest teamMemberRequest = new TeamMemberRequest().firstname("firstname").name("lastname").joinDate(OffsetDateTime.now()).teamId(1);
         when(this.generatedKeyHolder.getKey())
                 .thenReturn(1);
-        this.teamMemberDao.addTeamMember(teamMember);
+        this.teamMemberDao.addTeamMember(teamMemberRequest);
         ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
                 ArgumentCaptor.forClass(MapSqlParameterSource.class);
         verify(this.namedParameterJdbcTemplate).update(eq
                         ("insert into TEAMMEMBER (name, firstname, joinDate, team) values (:name, :firstname, :joinDate, :teamId)")
                 , argumentCaptor.capture(), any(GeneratedKeyHolder.class));
-        assertEquals(teamMember.getName(), argumentCaptor.getValue().getValue("name"));
-        assertEquals(teamMember.getFirstname(), argumentCaptor.getValue().getValue("firstname"));
-        assertEquals(teamMember.getJoinDate(), argumentCaptor.getValue().getValue("joinDate"));
-        assertEquals(teamMember.getTeam().getTeamId(), argumentCaptor.getValue().getValue("teamId"));
+        assertEquals(teamMemberRequest.getName(), argumentCaptor.getValue().getValue("name"));
+        assertEquals(teamMemberRequest.getFirstname(), argumentCaptor.getValue().getValue("firstname"));
+        assertEquals(teamMemberRequest.getJoinDate(), argumentCaptor.getValue().getValue("joinDate"));
+        assertEquals(teamMemberRequest.getTeamId(), argumentCaptor.getValue().getValue("teamId"));
     }
 
     @Test
-    void updateProject() throws Exception {
-        TeamMember teamMember = new TeamMember();
-        teamMember.setMemberId(1);
-        teamMember.setFirstname("Project1");
-        teamMember.setName("Project2");
-        teamMember.setTeam(new Team().teamId(1).budget(100.00));
-        teamMember.setJoinDate(OffsetDateTime.now());
-        this.teamMemberDao.updateTeamMember(teamMember);
+    void addNullTeamMember() throws Exception {
+        TeamMemberRequest teamMemberRequest = null;
+        assertThrows(Exception.class, () -> {
+            this.teamMemberDao.addTeamMember(teamMemberRequest);
+        });
+    }
+
+    @Test
+    void updateTeamMember() throws Exception {
+        TeamMemberRequest teamMemberRequest = new TeamMemberRequest();
+        teamMemberRequest.setFirstname("Project1");
+        teamMemberRequest.setName("Project2");
+        teamMemberRequest.setTeamId(1);
+        teamMemberRequest.setJoinDate(OffsetDateTime.now());
+        this.teamMemberDao.updateTeamMember(1, teamMemberRequest);
         ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
                 ArgumentCaptor.forClass(MapSqlParameterSource.class);
         verify(this.namedParameterJdbcTemplate).update(eq("update TEAMMEMBER set name = :name, firstname = :firstname, joinDate = :joinDate, team = :teamId where memberId = :memberId")
                 , argumentCaptor.capture());
 
-        assertEquals(teamMember.getMemberId(), argumentCaptor.getValue().getValue("memberId"));
-        assertEquals(teamMember.getName(), argumentCaptor.getValue().getValue("name"));
-        assertEquals(teamMember.getFirstname(), argumentCaptor.getValue().getValue("firstname"));
-        assertEquals(teamMember.getJoinDate(), argumentCaptor.getValue().getValue("joinDate"));
-        assertEquals(teamMember.getTeam().getTeamId(), argumentCaptor.getValue().getValue("teamId"));
+        assertEquals(1, argumentCaptor.getValue().getValue("memberId"));
+        assertEquals(teamMemberRequest.getName(), argumentCaptor.getValue().getValue("name"));
+        assertEquals(teamMemberRequest.getFirstname(), argumentCaptor.getValue().getValue("firstname"));
+        assertEquals(teamMemberRequest.getJoinDate(), argumentCaptor.getValue().getValue("joinDate"));
+        assertEquals(teamMemberRequest.getTeamId(), argumentCaptor.getValue().getValue("teamId"));
     }
 
     @Test
-    void deleteProjectById() throws Exception {
+    void updateNullTeamMember() throws Exception {
+        TeamMemberRequest teamMemberRequest = null;
+        assertThrows(Exception.class, () -> {
+            this.teamMemberDao.updateTeamMember(null, teamMemberRequest);
+        });
+
+    }
+
+    @Test
+    void deleteTeamMemberById() throws Exception {
         this.teamMemberDao.deleteTeamMemberById(1);
         ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
                 ArgumentCaptor.forClass(MapSqlParameterSource.class);
