@@ -52,7 +52,7 @@ To install and run the application, follow these steps:
 The application can be configured through the following properties:
 
 - `server.port`: The port on which the application is running. Default is `8080`.
-- `spring.datasource.url`: The URL of the MySQL database. Default is `jdbc:mysql://localhost:3306/M295`.
+- `spring.datasource.url`: The URL of the MySQL database. Default is `jdbc:mysql://localhost:3306/m295`.
 - `spring.datasource.username`: The username for the MySQL database. Default is `root`.
 - `spring.datasource.password`: The password for the MySQL database. Default is `1234`.
 
