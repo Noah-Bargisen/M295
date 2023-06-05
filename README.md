@@ -1,5 +1,3 @@
----
-
 # Project Name
 
 This project is a Spring Boot application that provides a RESTful API for team and project management. It is designed to store and manage all project and its team members. The application is built using Java and follows the principles of Spring Boot to provide a robust and scalable solution.
@@ -8,9 +6,9 @@ This project is a Spring Boot application that provides a RESTful API for team a
 
 Before running the application, ensure that you have the following prerequisites installed:
 
-- Java Development Kit (JDK) version [20.0.1]
-- Apache Maven version [3.8.1]
-- MySQL Server [8.0.31]
+- Java Development Kit (JDK) version [20.0.1](https://www.oracle.com/java/technologies/javase/jdk20-archive-downloads.html)
+- Apache Maven version [3.8.1](https://archive.apache.org/dist/maven/maven-3/)
+- MySQL Server [8.0.31](https://downloads.mysql.com/archives/community/)
 
 ## Installation
 
@@ -49,10 +47,13 @@ To install and run the application, follow these steps:
 
 The application can be configured through the following properties:
 
-- [insert configuration properties and their descriptions]
-- [insert any environment variables or configuration files that need to be set up]
+- `server.port`: The port on which the application is running. Default is `8080`.
+- `spring.datasource.url`: The URL of the MySQL database. Default is `jdbc:mysql://localhost:3306/M295`.
+- `spring.datasource.username`: The username for the MySQL database. Default is `root`.
+- `spring.datasource.password`: The password for the MySQL database. Default is `1234`.
 
-You can modify these properties according to your specific requirements.
+
+You can modify these properties according to your specific requirements in the [application.properties](src/main/resources/application.properties) file.
 
 ## Usage
 
@@ -68,7 +69,7 @@ To use the application, follow these steps:
 
 ![Database Schema](m295_database_schema.png)
 
-'''sql
+```sql
 CREATE DATABASE IF NOT EXISTS M295;
 USE M295;
 
@@ -118,9 +119,7 @@ ALTER TABLE SOFTWARE
     ADD CONSTRAINT FK_TEAM FOREIGN KEY (team) REFERENCES TEAM (teamId);
 ALTER TABLE SOFTWARE
     ADD CONSTRAINT FK_PROJECT FOREIGN KEY (project) REFERENCES PROJECT (projectId);
-
-
-'''
+```
 
 ## API Documentation
 
@@ -138,6 +137,6 @@ We appreciate your valuable contributions!
 
 ## License
 
-This project is licensed under the [insert license type] license. See the [LICENSE](LICENSE) file for more information.
+This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more information.
 
 ---
