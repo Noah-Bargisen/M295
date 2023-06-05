@@ -1,5 +1,3 @@
-Sure! Here's some text that you can use as a starting point and rework it to fit your project:
-
 ---
 
 # Project Name
@@ -61,13 +59,14 @@ You can modify these properties according to your specific requirements.
 To use the application, follow these steps:
 
 1. Access the API endpoints using the base URL: `http://localhost:[port]`.
-2. [insert instructions on how to use the application, including any necessary endpoints or actions]
-
-Provide any additional details or examples to help users understand how to interact with your application.
+2. Endpoints are documented in the [API documentation](#api-documentation).
+3. The authentication method is basic authentication with these credentials.
+    Username: `user`
+    Password: `password`
 
 ## API Documentation
 
-The API documentation for this project is available [insert link or describe where to find the documentation]. It provides detailed information about each endpoint, request/response formats, and any required authentication or authorization.
+The API documentation for this project is available [OpenAPI Specification](src/main/resources/openapi.md). It provides detailed information about each endpoint, request/response formats, and any required authentication or authorization.
 
 ## Contributing
 
@@ -84,5 +83,3 @@ We appreciate your valuable contributions!
 This project is licensed under the [insert license type] license. See the [LICENSE](LICENSE) file for more information.
 
 ---
-
-Feel free to modify and adapt the text as per your project's specific details and requirements.

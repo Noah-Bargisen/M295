@@ -57,6 +57,8 @@ paths:
 
   /team/admin/{teamId}:
     get:
+      security:
+        - basicAuth: [ ]
       tags:
         - team
       summary: Get one team
@@ -82,6 +84,8 @@ paths:
         '500':
           description: Critical error
     put:
+      security:
+        - basicAuth: [ ]
       tags:
           - team
       summary: Update a team
@@ -112,30 +116,32 @@ paths:
           '500':
               description: Critical error
     delete:
-        tags:
-            - team
-        summary: Delete a team
-        description: Delete a team
-        operationId: deleteTeam
-        parameters:
-            - name: teamId
-              in: path
-              description: teamId
-              required: true
-              schema:
-                type: integer
-                format: int32
-        responses:
-            '200':
-                description: Successful operation
-                content:
-                  application/json:
-                    schema:
-                      $ref: '#/components/schemas/Team'
-            '400':
-                description: Invalid Request supplied
-            '500':
-                description: Critical error
+      security:
+        - basicAuth: [ ]
+      tags:
+          - team
+      summary: Delete a team
+      description: Delete a team
+      operationId: deleteTeam
+      parameters:
+          - name: teamId
+            in: path
+            description: teamId
+            required: true
+            schema:
+              type: integer
+              format: int32
+      responses:
+          '200':
+              description: Successful operation
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/Team'
+          '400':
+              description: Invalid Request supplied
+          '500':
+              description: Critical error
 
   /teamMember:
     get:
@@ -186,6 +192,8 @@ paths:
               description: Critical error
   /teamMember/admin/{memberId}:
     get:
+      security:
+        - basicAuth: [ ]
       tags:
         - teamMember
       summary: Get one teamMember
@@ -212,6 +220,8 @@ paths:
           description: Critical error
 
     put:
+        security:
+            - basicAuth: [ ]
         tags:
             - teamMember
         summary: Update a teamMember
@@ -242,6 +252,8 @@ paths:
             '500':
                 description: Critical error
     delete:
+        security:
+            - basicAuth: [ ]
         tags:
             - teamMember
         summary: Delete a teamMember
@@ -327,6 +339,8 @@ paths:
 
   /software/admin/{softwareId}:
     get:
+      security:
+          - basicAuth: [ ]
       tags:
         - software
       summary: Get one software
@@ -351,6 +365,8 @@ paths:
         '500':
           description: Critical error
     put:
+        security:
+            - basicAuth: [ ]
         tags:
             - software
         summary: Update a software
@@ -380,6 +396,8 @@ paths:
             '500':
                 description: Critical error
     delete:
+        security:
+            - basicAuth: [ ]
         tags:
             - software
         summary: Delete a software
@@ -452,6 +470,8 @@ paths:
                 description: Critical error
   /project/admin/{projectId}:
     get:
+      security:
+        - basicAuth: [ ]
       tags:
         - project
       summary: Get one project
@@ -477,6 +497,8 @@ paths:
         '500':
           description: Critical error
     put:
+        security:
+            - basicAuth: [ ]
         tags:
             - project
         summary: Update a project
@@ -507,6 +529,8 @@ paths:
             '500':
                 description: Critical error
     delete:
+        security:
+            - basicAuth: [ ]
         tags:
             - project
         summary: Delete a project
@@ -701,3 +725,8 @@ components:
               type: integer
               format: int32
               example: 10
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Use `user` / `password` as the test credentials
