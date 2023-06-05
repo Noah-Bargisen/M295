@@ -53,6 +53,20 @@ public class TeamMemberDao {
         }
     }
 
+    public List<TeamMember> getAllTeamMemberByTeamId(int teamId) throws Exception {
+        try {
+            String sql = "select * from teammember tm join team t on tm.team = t.teamId WHERE team = :team";
+            SqlParameterSource namedParameters = new MapSqlParameterSource("team", teamId);
+            return namedParameterJdbcTemplate.query(sql, namedParameters, new TeamMemberSetExtractor());
+        } catch (DataAccessException | IndexOutOfBoundsException exception) {
+            log.debug(exception.getMessage());
+            throw new SQLException("Team members not found.", exception);
+        } catch (Exception exception) {
+            log.debug(exception.getMessage());
+            throw new Exception("Critical error while getting team member.", exception);
+        }
+    }
+
     public int addTeamMember(TeamMemberRequest teamMemberRequest) throws Exception {
         try {
             String sql = "insert into TEAMMEMBER (name, firstname, joinDate, team) values (:name, :firstname, :joinDate, :teamId)";

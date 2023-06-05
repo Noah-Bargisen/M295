@@ -5,7 +5,9 @@ import com.ubs.gen.controller.ProjectApi;
 import com.ubs.gen.module.Project;
 import com.ubs.gen.module.ProjectRequest;
 import com.ubs.m295_projectapplication.jdbc.ProjectDao;
+import com.ubs.m295_projectapplication.jdbc.SoftwareDao;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +21,11 @@ import java.util.Optional;
 public class ProjectController extends AbstractController implements ProjectApi {
 
     private final ProjectDao projectDao;
+    private final SoftwareDao softwareDao;
 
-    public ProjectController(ProjectDao projectDao) {
+    public ProjectController(ProjectDao projectDao, SoftwareDao softwareDao) {
         this.projectDao = projectDao;
+        this.softwareDao = softwareDao;
     }
 
 
@@ -41,8 +45,6 @@ public class ProjectController extends AbstractController implements ProjectApi 
     }
 
 
-
-
     @Override
     public ResponseEntity<List<Project>> getProjects() {
         try {
@@ -53,7 +55,7 @@ public class ProjectController extends AbstractController implements ProjectApi 
             List<Project> projects = projectDao.getAllProjects();
             log.info("Projects retrieved...");
             return okRespond(projects);
-        }  catch (SQLException exception) {
+        } catch (SQLException exception) {
             log.warn("Error getting projects", exception);
             throwBadRequest("Error getting projects", exception);
         } catch (Exception exception) {
@@ -90,6 +92,14 @@ public class ProjectController extends AbstractController implements ProjectApi 
                 log.debug("Deleting project: {}", projectId);
             }
             log.info("Deleting project...");
+            softwareDao.getAllSoftwareByProjectId(projectId).forEach(software -> {
+                try {
+                    softwareDao.deleteSoftwareById(software.getSoftwareId());
+                } catch (Exception exception) {
+                    throw new DataAccessException("Error deleting software", exception) {
+                    };
+                }
+            });
             projectDao.deleteProjectById(projectId);
             log.info("Project deleted...");
             return okRespond(null);

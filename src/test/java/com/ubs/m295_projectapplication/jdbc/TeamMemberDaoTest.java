@@ -66,6 +66,26 @@ public class TeamMemberDaoTest {
 
     }
 
+
+    @Test
+    void getTeamMemberByTeamId() throws Exception {
+        TeamMember teamMember = new TeamMember();
+        teamMember.setMemberId(1);
+        teamMember.setFirstname("Project1");
+        teamMember.setName("Project2");
+        when(this.namedParameterJdbcTemplate.query(anyString(), (SqlParameterSource) any(), any(TeamMemberSetExtractor.class)))
+                .thenReturn(List.of(teamMember));
+        this.teamMemberDao.getAllTeamMemberByTeamId(1);
+        ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
+                ArgumentCaptor.forClass(MapSqlParameterSource.class);
+        verify(this.namedParameterJdbcTemplate).query(eq
+                        ("select * from teammember tm join team t on tm.team = t.teamId WHERE team = :team")
+                ,argumentCaptor.capture(), any(TeamMemberSetExtractor.class));
+
+        assertEquals(1, argumentCaptor.getValue().getValue("team"));
+
+    }
+
     @Test
     void addTeamMember() throws Exception {
         TeamMemberRequest teamMemberRequest = new TeamMemberRequest().firstname("firstname").name("lastname").joinDate(OffsetDateTime.now()).teamId(1);

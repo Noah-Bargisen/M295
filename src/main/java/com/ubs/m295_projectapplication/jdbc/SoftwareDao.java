@@ -52,7 +52,21 @@ public class SoftwareDao {
             log.debug(exception.getMessage());
             throw new Exception("Critical error while getting software.", exception);
         }
+    }
 
+    public List<Software> getAllSoftwareByProjectId(int projectId) throws Exception {
+        try {
+            List<TeamMember> teamMembers = new ArrayList<>();
+            String sql = "select * from software s join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team join project p on s.project = p.projectId WHERE project = :project";
+            SqlParameterSource namedParameters = new MapSqlParameterSource("project", projectId);
+            return namedParameterJdbcTemplate.query(sql, namedParameters, new SoftwareSetExtractor());
+        } catch (DataAccessException | IndexOutOfBoundsException exception) {
+            log.debug(exception.getMessage());
+            throw new SQLException("Softwares not found.", exception);
+        } catch (Exception exception) {
+            log.debug(exception.getMessage());
+            throw new Exception("Critical error while getting software.", exception);
+        }
     }
 
     public int addSoftware(SoftwareRequest softwareRequest) throws Exception {

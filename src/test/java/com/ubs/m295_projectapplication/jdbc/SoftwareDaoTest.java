@@ -37,7 +37,7 @@ public class SoftwareDaoTest {
     }
 
     @Test
-    void getAllProjects() throws Exception {
+    void getAllSoftwares() throws Exception {
         this.softwareDao.getAllSoftware();
         verify(this.namedParameterJdbcTemplate).query(eq
                         ("select * from software s join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team join project p on s.project = p.projectId")
@@ -45,7 +45,7 @@ public class SoftwareDaoTest {
     }
 
     @Test
-    void getTeamMemberById() throws Exception {
+    void getSoftwareById() throws Exception {
         Software software = new Software();
         software.setSoftwareId("GGG");
         software.setSoftwareName("Project1");
@@ -63,8 +63,51 @@ public class SoftwareDaoTest {
         assertEquals("GGG", argumentCaptor.getValue().getValue("softwareId"));
     }
 
+
+
     @Test
-    void getTeamMemberByNullId() throws Exception {
+    void getSoftwareByProjectId() throws Exception {
+        Software software = new Software();
+        software.setSoftwareId("GGG");
+        software.setSoftwareName("Project1");
+        software.setStatus(Software.StatusEnum.TESTING);
+        software.setSoftwareVersion("1.0");
+        when(this.namedParameterJdbcTemplate.query(anyString(), (SqlParameterSource) any(), any(SoftwareSetExtractor.class)))
+                .thenReturn(List.of(software));
+        this.softwareDao.getAllSoftwareByProjectId(1);
+        ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
+                ArgumentCaptor.forClass(MapSqlParameterSource.class);
+        verify(this.namedParameterJdbcTemplate).query(eq
+                        ("select * from software s join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team join project p on s.project = p.projectId WHERE project = :project")
+                ,argumentCaptor.capture(), any(SoftwareSetExtractor.class));
+
+        assertEquals(1, argumentCaptor.getValue().getValue("project"));
+    }
+
+
+
+
+    @Test
+    void getSoftwareBy0ProjectId() throws Exception {
+        Software software = new Software();
+        software.setSoftwareId("GGG");
+        software.setSoftwareName("Project1");
+        software.setStatus(Software.StatusEnum.TESTING);
+        software.setSoftwareVersion("1.0");
+        when(this.namedParameterJdbcTemplate.query(anyString(), (SqlParameterSource) any(), any(SoftwareSetExtractor.class)))
+                .thenReturn(List.of(software));
+        this.softwareDao.getAllSoftwareByProjectId(0);
+        ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
+                ArgumentCaptor.forClass(MapSqlParameterSource.class);
+        verify(this.namedParameterJdbcTemplate).query(eq
+                        ("select * from software s join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team join project p on s.project = p.projectId WHERE project = :project")
+                ,argumentCaptor.capture(), any(SoftwareSetExtractor.class));
+
+        assertEquals(0, argumentCaptor.getValue().getValue("project"));
+    }
+
+    @Test
+    void getSoftwareByNullId() throws Exception {
         Software software = new Software();
         software.setSoftwareId(null);
         software.setSoftwareName("Project1");

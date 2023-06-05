@@ -5,6 +5,7 @@ import com.ubs.gen.controller.TeamApi;
 import com.ubs.gen.module.Team;
 import com.ubs.gen.module.TeamRequest;
 import com.ubs.m295_projectapplication.jdbc.TeamDao;
+import com.ubs.m295_projectapplication.jdbc.TeamMemberDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,11 @@ import java.util.Optional;
 public class TeamController extends AbstractController implements TeamApi {
 
     private final TeamDao teamDao;
+    private final TeamMemberDao teamMemberDao;
 
-    public TeamController(TeamDao teamDao) {
+    public TeamController(TeamDao teamDao, TeamMemberDao teamMemberDao) {
         this.teamDao = teamDao;
+        this.teamMemberDao = teamMemberDao;
     }
     @Override
     public Optional<ObjectMapper> getObjectMapper() {
@@ -87,6 +90,14 @@ public class TeamController extends AbstractController implements TeamApi {
                 log.debug("Deleting team: {}", teamId);
             }
             log.info("Deleting team...");
+            teamMemberDao.getAllTeamMemberByTeamId(teamId).forEach(teamMember -> {
+                try {
+                    teamMemberDao.deleteTeamMemberById(teamMember.getMemberId());
+                } catch (Exception e) {
+                    throw new DataAccessException("Error deleting team member", e) {
+                    };
+                }
+            });
             teamDao.deleteTeamById(teamId);
             log.info("Team deleted...");
             return okRespond(null);
