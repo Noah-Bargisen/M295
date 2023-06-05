@@ -20,7 +20,7 @@ public class SoftwareSetExtractor implements ResultSetExtractor<List<Software>> 
         List<TeamMember> teamMembers = new ArrayList<>();
         ZoneId zoneId = ZoneId.systemDefault();
         List<Software> softwareArrayList = new ArrayList<>();
-        while(rs.next()) {
+        if(rs.next()) {
             Software software = new Software();
             software.setSoftwareId(rs.getString("softwareId"));
             software.setSoftwareName(rs.getString("softwareName"));
@@ -32,11 +32,12 @@ public class SoftwareSetExtractor implements ResultSetExtractor<List<Software>> 
             TeamMember teamMember = new TeamMember();
             teamMember.setName(rs.getString("name"));
             teamMember.setFirstname(rs.getString("firstName"));
-            teamMember.setTeam(team);
+            teamMember.setTeamId(team.getTeamId());
             teamMember.setMemberId(rs.getInt("memberId"));
             teamMember.setJoinDate(ZonedDateTime.of(rs.getDate("joinDate").toLocalDate().atStartOfDay(), zoneId).toOffsetDateTime());
             teamMembers.add(teamMember);
             team.setTeamMembers(teamMembers);
+
             Project project = new Project();
             project.setProjectId(rs.getInt("projectId"));
             project.setProjectName(rs.getString("projectName"));

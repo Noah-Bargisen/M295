@@ -51,7 +51,7 @@ Get all teams
         "name": "Smith",
         "firstname": "John",
         "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
+        "teamId": 0
       }
     ]
   }
@@ -83,7 +83,7 @@ Status Code **200**
 |»» name|string|true|none|none|
 |»» firstname|string|true|none|none|
 |»» joinDate|string(date-time)|true|none|none|
-|»» team|[Team](#schemateam)|true|none|none|
+|»» teamId|integer(int32)|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
@@ -184,12 +184,7 @@ Get one team
       "name": "Smith",
       "firstname": "John",
       "joinDate": "2019-08-24T14:15:22Z",
-      "team": {
-        "teamId": 10,
-        "budget": 96,
-        "teamName": "Team 1",
-        "teamMembers": []
-      }
+      "teamId": 0
     }
   ]
 }
@@ -259,12 +254,7 @@ Update a team
       "name": "Smith",
       "firstname": "John",
       "joinDate": "2019-08-24T14:15:22Z",
-      "team": {
-        "teamId": 10,
-        "budget": 96,
-        "teamName": "Team 1",
-        "teamMembers": []
-      }
+      "teamId": 0
     }
   ]
 }
@@ -323,12 +313,7 @@ Delete a team
       "name": "Smith",
       "firstname": "John",
       "joinDate": "2019-08-24T14:15:22Z",
-      "team": {
-        "teamId": 10,
-        "budget": 96,
-        "teamName": "Team 1",
-        "teamMembers": []
-      }
+      "teamId": 0
     }
   ]
 }
@@ -379,14 +364,7 @@ Get all teamMembers
     "name": "Smith",
     "firstname": "John",
     "joinDate": "2019-08-24T14:15:22Z",
-    "team": {
-      "teamId": 10,
-      "budget": 96,
-      "teamName": "Team 1",
-      "teamMembers": [
-        {}
-      ]
-    }
+    "teamId": 0
   }
 ]
 ```
@@ -412,11 +390,7 @@ Status Code **200**
 |» name|string|true|none|none|
 |» firstname|string|true|none|none|
 |» joinDate|string(date-time)|true|none|none|
-|» team|[Team](#schemateam)|true|none|none|
-|»» teamId|integer(int32)|false|none|none|
-|»» budget|number(double)|true|none|none|
-|»» teamName|string|true|none|none|
-|»» teamMembers|[[TeamMember](#schemateammember)]|true|none|none|
+|» teamId|integer(int32)|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
@@ -514,20 +488,7 @@ Get one teamMember
   "name": "Smith",
   "firstname": "John",
   "joinDate": "2019-08-24T14:15:22Z",
-  "team": {
-    "teamId": 10,
-    "budget": 96,
-    "teamName": "Team 1",
-    "teamMembers": [
-      {
-        "memberId": 10,
-        "name": "Smith",
-        "firstname": "John",
-        "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
-      }
-    ]
-  }
+  "teamId": 0
 }
 ```
 
@@ -592,20 +553,7 @@ Update a teamMember
   "name": "Smith",
   "firstname": "John",
   "joinDate": "2019-08-24T14:15:22Z",
-  "team": {
-    "teamId": 10,
-    "budget": 96,
-    "teamName": "Team 1",
-    "teamMembers": [
-      {
-        "memberId": 10,
-        "name": "Smith",
-        "firstname": "John",
-        "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
-      }
-    ]
-  }
+  "teamId": 0
 }
 ```
 
@@ -657,20 +605,7 @@ Delete a teamMember
   "name": "Smith",
   "firstname": "John",
   "joinDate": "2019-08-24T14:15:22Z",
-  "team": {
-    "teamId": 10,
-    "budget": 96,
-    "teamName": "Team 1",
-    "teamMembers": [
-      {
-        "memberId": 10,
-        "name": "Smith",
-        "firstname": "John",
-        "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
-      }
-    ]
-  }
+  "teamId": 0
 }
 ```
 
@@ -758,7 +693,7 @@ Status Code **200**
 |»»» name|string|true|none|none|
 |»»» firstname|string|true|none|none|
 |»»» joinDate|string(date-time)|true|none|none|
-|»»» team|[Team](#schemateam)|true|none|none|
+|»»» teamId|integer(int32)|false|none|none|
 |» project|[Project](#schemaproject)|true|none|none|
 |»» projectId|integer(int32)|false|none|none|
 |»» projectName|string|true|none|none|
@@ -880,7 +815,7 @@ Get one software
         "name": "Smith",
         "firstname": "John",
         "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
+        "teamId": 0
       }
     ]
   },
@@ -964,7 +899,7 @@ Update a software
         "name": "Smith",
         "firstname": "John",
         "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
+        "teamId": 0
       }
     ]
   },
@@ -1033,7 +968,7 @@ Delete a software
         "name": "Smith",
         "firstname": "John",
         "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
+        "teamId": 0
       }
     ]
   },
@@ -1342,20 +1277,7 @@ basicAuth
   "name": "Smith",
   "firstname": "John",
   "joinDate": "2019-08-24T14:15:22Z",
-  "team": {
-    "teamId": 10,
-    "budget": 96,
-    "teamName": "Team 1",
-    "teamMembers": [
-      {
-        "memberId": 10,
-        "name": "Smith",
-        "firstname": "John",
-        "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
-      }
-    ]
-  }
+  "teamId": 0
 }
 
 ```
@@ -1368,7 +1290,7 @@ basicAuth
 |name|string|true|none|none|
 |firstname|string|true|none|none|
 |joinDate|string(date-time)|true|none|none|
-|team|[Team](#schemateam)|true|none|none|
+|teamId|integer(int32)|false|none|none|
 
 <h2 id="tocS_Team">Team</h2>
 <!-- backwards compatibility -->
@@ -1388,12 +1310,7 @@ basicAuth
       "name": "Smith",
       "firstname": "John",
       "joinDate": "2019-08-24T14:15:22Z",
-      "team": {
-        "teamId": 10,
-        "budget": 96,
-        "teamName": "Team 1",
-        "teamMembers": []
-      }
+      "teamId": 0
     }
   ]
 }
@@ -1431,7 +1348,7 @@ basicAuth
         "name": "Smith",
         "firstname": "John",
         "joinDate": "2019-08-24T14:15:22Z",
-        "team": {}
+        "teamId": 0
       }
     ]
   },

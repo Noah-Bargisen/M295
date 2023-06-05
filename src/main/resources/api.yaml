@@ -578,8 +578,9 @@ components:
         joinDate:
           type: string
           format: date-time
-        team:
-          $ref: '#/components/schemas/Team'
+        teamId:
+          type: integer
+          format: int32
     Team:
       required:
         - budget

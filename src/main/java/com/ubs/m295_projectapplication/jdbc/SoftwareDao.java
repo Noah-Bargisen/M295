@@ -26,7 +26,6 @@ public class SoftwareDao {
 
     public List<Software> getAllSoftware() throws Exception {
         try {
-            List<TeamMember> teamMembers = new ArrayList<>();
             String sql = "select * from software s join team t on s.team = t.teamId join teammember tm on t.teamId = tm.team join project p on s.project = p.projectId";
             return namedParameterJdbcTemplate.query(sql, new SoftwareSetExtractor());
         } catch (DataAccessException exception) {

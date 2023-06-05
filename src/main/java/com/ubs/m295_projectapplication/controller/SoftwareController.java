@@ -52,6 +52,7 @@ public class SoftwareController extends AbstractController implements SoftwareAp
             log.info("Getting softwares...");
             List<Software> softwares = softwareDao.getAllSoftware();
             log.info("Softwares retrieved...");
+            return okRespond(softwares);
         } catch (DataAccessException exception) {
             log.warn("Error getting softwares", exception);
             throwBadRequest("Error getting softwares", exception);

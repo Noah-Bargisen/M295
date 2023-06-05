@@ -29,7 +29,7 @@ public class TeamSetExtractor implements ResultSetExtractor<List<Team>> {
             teamMember.setName(rs.getString("name"));
             teamMember.setFirstname(rs.getString("firstName"));
             teamMember.setJoinDate(ZonedDateTime.of(rs.getDate("joinDate").toLocalDate().atStartOfDay(), zoneId).toOffsetDateTime());
-            teamMember.setTeam(team);
+            teamMember.setTeamId(rs.getInt("teamId"));
             teamMembers.add(teamMember);
             team.setTeamMembers(teamMembers);
 
