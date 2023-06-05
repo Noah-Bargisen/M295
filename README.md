@@ -137,7 +137,7 @@ I welcome contributions to improve this project. To contribute, please follow th
 2. Make your changes and ensure they follow the project's coding standards.
 3. Submit a pull request, explaining the purpose and scope of your changes.
 
-We appreciate your valuable contributions!
+I appreciate your valuable contributions!
 
 ## License
 

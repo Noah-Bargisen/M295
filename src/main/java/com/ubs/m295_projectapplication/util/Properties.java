@@ -9,6 +9,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 public class Properties {
 
-    private final String test;
-
 }
