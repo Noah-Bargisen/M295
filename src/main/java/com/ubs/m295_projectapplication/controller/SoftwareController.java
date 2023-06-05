@@ -70,9 +70,9 @@ public class SoftwareController extends AbstractController implements SoftwareAp
                 log.debug("Creating software");
             }
             log.info("Creating software...");
-            softwareDao.addSoftware(body);
+            int id = softwareDao.addSoftware(body);
             log.info("Software created...");
-            return okRespond(null);
+            return okRespond(id);
         } catch (DataAccessException exception) {
             log.warn("Error creating software", exception);
             throwBadRequest("Error creating software", exception);
@@ -84,15 +84,15 @@ public class SoftwareController extends AbstractController implements SoftwareAp
     }
 
     @Override
-    public ResponseEntity<Software> deleteSoftware(String softwareId) {
+    public ResponseEntity<Integer> deleteSoftware(String softwareId) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Deleting software");
             }
             log.info("Deleting software...");
-            softwareDao.deleteSoftwareById(softwareId);
+            int id = softwareDao.deleteSoftwareById(softwareId);
             log.info("Software deleted...");
-            return okRespond(null);
+            return okRespond(id);
         } catch (DataAccessException exception) {
             log.warn("Error deleting software", exception);
             throwBadRequest("Error deleting software", exception);

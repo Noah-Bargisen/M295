@@ -84,7 +84,7 @@ public class TeamController extends AbstractController implements TeamApi {
     }
 
     @Override
-    public ResponseEntity<Team> deleteTeam(Integer teamId) {
+    public ResponseEntity<Integer> deleteTeam(Integer teamId) {
         try{
             if(log.isDebugEnabled()) {
                 log.debug("Deleting team: {}", teamId);
@@ -98,9 +98,9 @@ public class TeamController extends AbstractController implements TeamApi {
                     };
                 }
             });
-            teamDao.deleteTeamById(teamId);
+            int id = teamDao.deleteTeamById(teamId);
             log.info("Team deleted...");
-            return okRespond(null);
+            return okRespond(id);
         } catch (DataAccessException exception) {
             log.warn("Error deleting team", exception);
             throwBadRequest("Error deleting team", exception);

@@ -137,7 +137,8 @@ paths:
               content:
                 application/json:
                   schema:
-                    $ref: '#/components/schemas/Team'
+                    type: integer
+                    format: int32
           '400':
               description: Invalid Request supplied
           '500':
@@ -273,7 +274,8 @@ paths:
                 content:
                   application/json:
                       schema:
-                        $ref: '#/components/schemas/TeamMember'
+                        type: integer
+                        format: int32
             '400':
                 description: Invalid Request supplied
             '500':
@@ -416,7 +418,8 @@ paths:
                 content:
                     application/json:
                         schema:
-                          $ref: '#/components/schemas/Software'
+                          type: integer
+                          format: int32
             '400':
                 description: Invalid Request supplied
             '500':
@@ -550,7 +553,8 @@ paths:
                 content:
                     application/json:
                         schema:
-                          $ref: '#/components/schemas/Project'
+                          type: integer
+                          format: int32
             '400':
                 description: Invalid Request supplied
             '500':

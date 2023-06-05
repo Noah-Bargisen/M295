@@ -86,7 +86,7 @@ public class ProjectController extends AbstractController implements ProjectApi 
     }
 
     @Override
-    public ResponseEntity<Project> deleteProject(Integer projectId) {
+    public ResponseEntity<Integer> deleteProject(Integer projectId) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Deleting project: {}", projectId);
@@ -100,9 +100,9 @@ public class ProjectController extends AbstractController implements ProjectApi 
                     };
                 }
             });
-            projectDao.deleteProjectById(projectId);
+            int id = projectDao.deleteProjectById(projectId);
             log.info("Project deleted...");
-            return okRespond(null);
+            return okRespond(id);
         } catch (SQLException exception) {
             log.warn("Error deleting project", exception);
             throwBadRequest("Error deleting project", exception);

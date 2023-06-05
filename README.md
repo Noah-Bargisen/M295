@@ -63,8 +63,8 @@ You can modify these properties according to your specific requirements in the [
 
 To use the application, follow these steps:
 
-1. Access the API endpoints using the base URL: `http://localhost:[port]`.
-2. Endpoints are documented in the [API documentation](#api-documentation).
+1. Access the API endpoints using the base URL: `http://localhost:[port]`. Default port is `8080`.
+2. Endpoints are documented in the [API documentation](#api-documentation). Alternatively, you can also access the API documentation by copying the api.yaml file into the [Swagger Editor](https://editor.swagger.io/).
 3. The authentication method is basic authentication with these credentials.
     Username: `user`
     Password: `password`

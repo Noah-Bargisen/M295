@@ -84,15 +84,15 @@ public class TeamMemberController extends AbstractController implements TeamMemb
     }
 
     @Override
-    public ResponseEntity<TeamMember> deleteTeamMember(Integer memberId) {
+    public ResponseEntity<Integer> deleteTeamMember(Integer memberId) {
         try {
             if (log.isDebugEnabled()) {
                 log.debug("Deleting team member");
             }
             log.info("Deleting team member...");
-            teamMemberDao.deleteTeamMemberById(memberId);
+            int id = teamMemberDao.deleteTeamMemberById(memberId);
             log.info("Team member deleted...");
-            return okRespond(null);
+            return okRespond(id);
         } catch (SQLException exception) {
             log.warn("Error deleting team member", exception);
             throwBadRequest("Error deleting team member", exception);
