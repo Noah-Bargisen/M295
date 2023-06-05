@@ -31,6 +31,8 @@ To install and run the application, follow these steps:
    ```shell
    mvn clean install
    ```
+   
+    If you do not want to use Maven in the command line, you can also import the project into your IDE and build it there with the run Configuration [Setup Application].
 
 4. Start the application:
 
@@ -40,6 +42,8 @@ To install and run the application, follow these steps:
 
    Replace `[project-name]` with the actual name of your JAR file.
    Default name is `M295_ProjectApplication-0.0.1-SNAPSHOT.jar`.
+
+    If you do not want to use the command line, you can also start the application from your IDE with the run Configuration [Run Application].
 
 5. The application is now running on port 8080.
 
@@ -127,7 +131,7 @@ The API documentation for this project is available [OpenAPI Specification](src/
 
 ## Contributing
 
-We welcome contributions to improve this project. To contribute, please follow these guidelines:
+I welcome contributions to improve this project. To contribute, please follow these guidelines:
 
 1. Fork the repository and create a new branch for your contribution.
 2. Make your changes and ensure they follow the project's coding standards.
