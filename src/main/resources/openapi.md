@@ -1,17 +1,3 @@
----
-title: M295 v1.0.0
-language_tabs:
-  - shell: Shell
-language_clients:
-  - shell: ""
-toc_footers: []
-includes: []
-search: true
-highlight_theme: darkula
-headingLevel: 2
-
----
-
 <!-- Generator: Widdershins v4.0.1 -->
 
 <h1 id="m295">M295 v1.0.0</h1>
