@@ -27,7 +27,7 @@ public class TeamMemberDao {
 
     public List<TeamMember> getAllTeamMember() throws Exception {
         try {
-            String sql = "select * from teammember tm join team t on tm.team = t.teamId";
+            String sql = "select * from teammember tm";
             return namedParameterJdbcTemplate.query(sql, new TeamMemberSetExtractor());
         } catch (DataAccessException exception) {
             log.debug(exception.getMessage());
@@ -41,7 +41,7 @@ public class TeamMemberDao {
 
     public TeamMember getTeamMemberById(int memberId) throws Exception {
         try {
-            String sql = "select * from teammember tm join team t on tm.team = t.teamId WHERE memberId = :memberId";
+            String sql = "select * from teammember tm WHERE memberId = :memberId";
             SqlParameterSource namedParameters = new MapSqlParameterSource("memberId", memberId);
             return namedParameterJdbcTemplate.query(sql, namedParameters, new TeamMemberSetExtractor()).get(0);
         } catch (DataAccessException | IndexOutOfBoundsException exception) {
@@ -55,7 +55,7 @@ public class TeamMemberDao {
 
     public List<TeamMember> getAllTeamMemberByTeamId(int teamId) throws Exception {
         try {
-            String sql = "select * from teammember tm join team t on tm.team = t.teamId WHERE team = :team";
+            String sql = "select * from teammember tm WHERE team = :team";
             SqlParameterSource namedParameters = new MapSqlParameterSource("team", teamId);
             return namedParameterJdbcTemplate.query(sql, namedParameters, new TeamMemberSetExtractor());
         } catch (DataAccessException | IndexOutOfBoundsException exception) {
