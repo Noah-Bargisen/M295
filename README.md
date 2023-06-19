@@ -142,3 +142,9 @@ I appreciate your valuable contributions!
 ## License
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more information.
+
+
+## Changes
+
+There was a mistake where the get all Software endpoint was not working. This has been fixed and the endpoint is now working as intended. 
+The cause was that the SoftwareSetExtractor did not loop through the resultset. This has been fixed by adding a while loop to the method.

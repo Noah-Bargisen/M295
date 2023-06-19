@@ -1,0 +1,12 @@
+table {
+    display: block;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+.form-control {
+    width: 25%;
+}
+
+.btn{
+    margin-top: 1em;
+}

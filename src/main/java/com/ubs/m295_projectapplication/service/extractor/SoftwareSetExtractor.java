@@ -20,7 +20,7 @@ public class SoftwareSetExtractor implements ResultSetExtractor<List<Software>> 
         List<TeamMember> teamMembers = new ArrayList<>();
         ZoneId zoneId = ZoneId.systemDefault();
         List<Software> softwareArrayList = new ArrayList<>();
-        if(rs.next()) {
+        while(rs.next()) {
             Software software = new Software();
             software.setSoftwareId(rs.getString("softwareId"));
             software.setSoftwareName(rs.getString("softwareName"));
