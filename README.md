@@ -148,3 +148,5 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 
 There was a mistake where the get all Software endpoint was not working. This has been fixed and the endpoint is now working as intended. 
 The cause was that the SoftwareSetExtractor did not loop through the resultset. This has been fixed by adding a while loop to the method.
+
+Query to get all Teams is changes to be grouped by teamId instead of -. This is to avoid duplicate teams in the resultset.

@@ -83,7 +83,13 @@ async function fetchTeams() {
     try {
         const response = await fetch(url + '/team');
         const data = await response.json();
-        return data;
+        let newData = [];
+        data.forEach((team) => {
+            if (!newData.find((t) => t.teamId === team.teamId)) {
+                newData.push(team);
+            }
+        });
+        return newData;
     } catch (error) {
         console.error('Fehler beim Abrufen der Teams:', error);
         return [];
